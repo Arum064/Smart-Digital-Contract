@@ -1,0 +1,35 @@
+[
+  {
+    "id": "C-001",
+    "title": "Kontrak LOA Internship",
+    "vendor": "Universitas Negeri Surabaya",
+    "contractId": "CTR-2025-001",
+    "status": "Active Contract",
+    "fileName": "",
+    "signedFileName": "",
+    "createdAt": "2025-01-10T09:00:00.000Z",
+    "updatedAt": "2025-01-10T09:00:00.000Z"
+  },
+  {
+    "id": "C-002",
+    "title": "Kontrak Jasa Desain Grafis",
+    "vendor": "PT Kreatif Studio Nusantara",
+    "contractId": "CTR-2025-002",
+    "status": "Pending Approval",
+    "fileName": "",
+    "signedFileName": "",
+    "createdAt": "2025-01-15T14:30:00.000Z",
+    "updatedAt": "2025-01-15T14:30:00.000Z"
+  },
+  {
+    "id": "C-003",
+    "title": "Kontrak Digital Marketing Brand Campaign",
+    "vendor": "PT Media Digital Solusi",
+    "contractId": "CTR-2025-003",
+    "status": "In Progress",
+    "fileName": "",
+    "signedFileName": "",
+    "createdAt": "2025-01-20T08:20:00.000Z",
+    "updatedAt": "2025-01-20T08:20:00.000Z"
+  }
+]

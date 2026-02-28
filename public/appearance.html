@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Settings – Appearance – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font Lato & Inter -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS khusus halaman Appearance -->
+  <link rel="stylesheet" href="settings-appearance.css" />
+
+  <style>
+    :root{
+      --cd-orange:#f9980d;
+      --cd-orange-soft:#fff2df;
+      --cd-text:#636363;
+      --cd-text-dark:#4a4a4a;
+      --cd-border:#e6e6e6;
+      --cd-border-2:#dedede;
+      --cd-shadow: 0 10px 24px rgba(0,0,0,.10);
+      --cd-radius: 14px;
+    }
+
+    /* =========================
+       ✅ GLOBAL FIX: hilangkan dot merah notif topbar
+    ========================= */
+    .notification-dot{ display:none !important; }
+    .notification-btn img{ filter: brightness(0) saturate(100%); }
+
+    /* =========================
+       ✅ NAV ICON: grey default -> orange saat active
+       (berlaku untuk semua item)
+    ========================= */
+    .settings-nav .nav-item{
+      text-decoration:none;
+      border-radius:10px;
+      padding:8px 10px;
+      transition: background .15s ease, color .15s ease;
+    }
+    .settings-nav .nav-item:hover{ background:#fafafa; }
+
+    .settings-nav .icon-wrapper img{
+      filter: grayscale(1) brightness(.85) contrast(1.05);
+      transition: filter .18s ease, transform .18s ease;
+    }
+    .settings-nav .nav-item.active .icon-wrapper img{
+      filter: brightness(0) saturate(100%)
+              invert(62%) sepia(82%) saturate(1620%)
+              hue-rotate(2deg) brightness(103%) contrast(103%);
+      transform: translateY(-1px);
+    }
+    .settings-nav .nav-item.active span{
+      color: var(--cd-orange);
+      font-weight: 700;
+    }
+
+    /* =========================
+       Label lebih rapi
+    ========================= */
+    .appearance-label{
+      display:block;
+      margin-bottom:10px;
+      color:#6a6a6a;
+      font-weight:600;
+      font-size:14px;
+      letter-spacing:.2px;
+      font-family: "Lato", sans-serif;
+    }
+
+    .appearance-wrapper{ margin-top: 10px; }
+    .appearance-group{ margin-bottom: 18px; }
+
+    /* =========================
+       HIDE NATIVE SELECT (tetap ada untuk value)
+    ========================= */
+    .native-select-hidden{
+      position:absolute !important;
+      left:-9999px !important;
+      width:1px !important;
+      height:1px !important;
+      opacity:0 !important;
+      pointer-events:none !important;
+    }
+
+    /* =========================
+       CUSTOM SELECT UI
+    ========================= */
+    .select-wrapper{
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .cd-select{
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      font-family: "Inter","Lato",sans-serif;
+    }
+
+    .cd-select-btn{
+      width: 100%;
+      height: 48px;
+      border-radius: var(--cd-radius);
+      border: 1px solid var(--cd-border-2);
+      background: #fff;
+      color: var(--cd-text-dark);
+      padding: 0 44px 0 16px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: border-color .15s ease, box-shadow .15s ease, background .15s ease, transform .15s ease;
+    }
+
+    .cd-select-btn:hover{
+      border-color: #d2d2d2;
+      transform: translateY(-1px);
+    }
+
+    .cd-select-btn:focus{
+      outline: none;
+      border-color: var(--cd-orange);
+      box-shadow: 0 0 0 4px rgba(249,152,13,.18);
+      background: var(--cd-orange-soft);
+      transform: translateY(0);
+    }
+
+    .cd-select-value{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 10px;
+    }
+
+    /* chevron */
+    .cd-select-chevron{
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #8b8b8b;
+      border-bottom: 2px solid #8b8b8b;
+      transform: rotate(45deg);
+      transition: transform .15s ease, border-color .15s ease;
+      flex: 0 0 10px;
+      margin-left: 12px;
+    }
+
+    .cd-select.open .cd-select-chevron{
+      transform: rotate(-135deg);
+      border-color: var(--cd-orange);
+    }
+
+    /* dropdown panel */
+    .cd-select-panel{
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      width: 100%;
+      background: #fff;
+      border: 1px solid var(--cd-border);
+      border-radius: 16px;
+      box-shadow: var(--cd-shadow);
+      padding: 8px;
+      display: none;
+      z-index: 50;
+    }
+
+    .cd-select.open .cd-select-panel{ display: block; }
+
+    /* option item */
+    .cd-option{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #444;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background .12s ease, transform .12s ease;
+    }
+
+    .cd-option:hover{
+      background: var(--cd-orange-soft);
+      transform: translateX(2px);
+    }
+
+    /* selected state */
+    .cd-option.selected{
+      background: rgba(249,152,13,.12);
+      border: 1px solid rgba(249,152,13,.35);
+    }
+
+    .cd-check{
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 2px solid rgba(249,152,13,.35);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cd-orange);
+      font-size: 12px;
+      opacity: 0;
+      transform: scale(.9);
+      transition: opacity .12s ease, transform .12s ease;
+      flex: 0 0 18px;
+      margin-left: 10px;
+    }
+    .cd-option.selected .cd-check{
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    @media (max-width: 768px){
+      .select-wrapper, .cd-select{ max-width: 100%; }
+      .cd-select-panel{ border-radius: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-layout">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/71224c67b67cb014509e326e687a4384fe5b74cc.png" alt="Logo" />
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="dashboard.html" class="sidebar-link">
+              <img src="assets/108_303.svg" alt="Dashboard" />
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="contract.html" class="sidebar-link">
+              <img src="assets/108_308.svg" alt="Contracts" />
+              <span class="nav-label">Contract</span>
+            </a>
+          </li>
+          <li>
+            <a href="approval.html" class="sidebar-link">
+              <img src="assets/108_318.svg" alt="Approval" />
+              <span class="nav-label">Approval</span>
+            </a>
+          </li>
+          <li>
+            <a href="settings.html" class="sidebar-link active">
+              <img src="assets/108_355.svg" alt="Settings" />
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ============ AREA KANAN ============ -->
+    <div class="main-container">
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <div class="search-bar">
+          <input id="searchInput" type="text" placeholder="Search" />
+          <img src="assets/108_336.svg" alt="Search" />
+        </div>
+
+        <div class="user-actions">
+          <!-- Notification -->
+          <button class="notification-btn" type="button" id="notificationBtn" aria-label="Notifications">
+            <img src="assets/108_373.svg" alt="Notifications" />
+            <span class="notification-dot"></span>
+          </button>
+
+          <div class="notification-dropdown" id="notificationDropdown">
+            <div class="dropdown-header">Notifications</div>
+            <div class="dropdown-item">1 kontrak baru menunggu approval kamu.</div>
+            <div class="dropdown-item">Perubahan jadwal meeting approval hari ini.</div>
+            <div class="dropdown-footer">Lihat semua notifikasi</div>
+          </div>
+
+          <div class="separator"></div>
+
+          <!-- Profile -->
+          <div class="user-profile" id="userProfile">
+            <img src="assets/108_365.svg" alt="Profile Avatar" />
+            <div class="user-info">
+              <span class="user-name">Nama</span>
+              <span class="user-role">Jabatan</span>
+            </div>
+          </div>
+
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="dropdown-item">Lihat Profil</div>
+            <div class="dropdown-item">Pengaturan Akun</div>
+            <div class="dropdown-footer" id="btnLogoutTop">Logout</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============ KONTEN UTAMA SETTINGS ============ -->
+      <main class="main-content">
+        <!-- HEADER PUTIH (judul + tombol) -->
+        <section class="dashboard-header">
+          <div class="header-white">
+            <div class="page-header">
+              <h1 class="page-title">Settings</h1>
+
+              <div class="page-actions">
+                <button id="btnCancel" class="btn-cancel" type="button">Cancel</button>
+                <button id="btnSave" class="btn-save" type="button">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- KOTAK PUTIH BESAR -->
+        <section class="settings-card-wrapper">
+          <section class="settings-card">
+            <!-- NAV KIRI -->
+            <aside class="settings-nav">
+              <a href="settings.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/165_345.svg" alt="Info" />
+                </div>
+                <span>Personal Information</span>
+              </a>
+
+              <a href="settings-security.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/222_370.svg" alt="Security" />
+                </div>
+                <span>Security</span>
+              </a>
+
+              <a href="settings-notifications.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/165_330.svg" alt="Notifications" />
+                </div>
+                <span>Notifications</span>
+              </a>
+
+              <!-- AKTIF -->
+              <a href="settings-appearance.html" class="nav-item active">
+                <div class="icon-wrapper">
+                  <img src="assets/settings/appearance1.png" alt="Appearance" />
+                </div>
+                <span>Appearance</span>
+              </a>
+            </aside>
+
+            <div class="vertical-divider"></div>
+
+            <!-- KONTEN KANAN : APPEARANCE -->
+            <section class="settings-content">
+              <div class="content-header">
+                <h2>Appearance</h2>
+                <p class="subtitle">Customize how the application looks and feels on your device</p>
+                <div class="horizontal-divider"></div>
+              </div>
+
+              <div class="appearance-wrapper">
+                <!-- Interface Theme -->
+                <div class="appearance-group">
+                  <label class="appearance-label" for="themeSelect">Interface Theme</label>
+
+                  <select id="themeSelect" class="native-select-hidden">
+                    <option value="light" selected>Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="device">Device Default</option>
+                  </select>
+
+                  <div class="select-wrapper">
+                    <div class="cd-select" data-native="themeSelect">
+                      <button type="button" class="cd-select-btn" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="cd-select-value">Light</span>
+                        <span class="cd-select-chevron" aria-hidden="true"></span>
+                      </button>
+
+                      <div class="cd-select-panel" role="listbox">
+                        <div class="cd-option selected" data-value="light">Light <span class="cd-check">✓</span></div>
+                        <div class="cd-option" data-value="dark">Dark <span class="cd-check">✓</span></div>
+                        <div class="cd-option" data-value="device">Device Default <span class="cd-check">✓</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Font Size -->
+                <div class="appearance-group">
+                  <label class="appearance-label" for="fontSizeSelect">Font Size</label>
+
+                  <select id="fontSizeSelect" class="native-select-hidden">
+                    <option value="xs">Very Small</option>
+                    <option value="sm">Small</option>
+                    <option value="md" selected>Medium (Recommended)</option>
+                    <option value="lg">Large</option>
+                    <option value="xl">Very Large</option>
+                  </select>
+
+                  <div class="select-wrapper">
+                    <div class="cd-select" data-native="fontSizeSelect">
+                      <button type="button" class="cd-select-btn" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="cd-select-value">Medium (Recommended)</span>
+                        <span class="cd-select-chevron" aria-hidden="true"></span>
+                      </button>
+
+                      <div class="cd-select-panel" role="listbox">
+                        <div class="cd-option" data-value="xs">Very Small <span class="cd-check">✓</span></div>
+                        <div class="cd-option" data-value="sm">Small <span class="cd-check">✓</span></div>
+                        <div class="cd-option selected" data-value="md">Medium (Recommended) <span class="cd-check">✓</span></div>
+                        <div class="cd-option" data-value="lg">Large <span class="cd-check">✓</span></div>
+                        <div class="cd-option" data-value="xl">Very Large <span class="cd-check">✓</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Language -->
+                <div class="appearance-group">
+                  <label class="appearance-label" for="languageSelect">Language</label>
+
+                  <select id="languageSelect" class="native-select-hidden">
+                    <option value="en" selected>English</option>
+                    <option value="id">Indonesia</option>
+                  </select>
+
+                  <div class="select-wrapper">
+                    <div class="cd-select" data-native="languageSelect">
+                      <button type="button" class="cd-select-btn" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="cd-select-value">English</span>
+                        <span class="cd-select-chevron" aria-hidden="true"></span>
+                      </button>
+
+                      <div class="cd-select-panel" role="listbox">
+                        <div class="cd-option selected" data-value="en">English <span class="cd-check">✓</span></div>
+                        <div class="cd-option" data-value="id">Indonesia <span class="cd-check">✓</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- JS asli kamu -->
+  <script src="settings-appearance.js"></script>
+
+  <!-- ✅ Custom dropdown sync (ke native select hidden) -->
+  <script>
+    // =========================
+    // USER STORAGE (biar konsisten dg page lain)
+    // =========================
+    function getSessionUser() {
+      try { const s = sessionStorage.getItem("user"); if (s) return JSON.parse(s); } catch (e) {}
+      try { const l = localStorage.getItem("user"); if (l) return JSON.parse(l); } catch (e) {}
+      return null;
+    }
+    function requireLogin(){
+      const u = getSessionUser();
+      if (!u) { window.location.href = "signin.html"; return null; }
+      return u;
+    }
+
+    // isi nama/jabatan topbar
+    (function(){
+      const user = requireLogin();
+      if (!user) return;
+      const topName = document.querySelector(".top-bar .user-name");
+      const topRole = document.querySelector(".top-bar .user-role");
+      if (topName) topName.textContent = user.full_name || user.name || "Nama";
+      if (topRole) topRole.textContent = user.role || "User";
+    })();
+
+    // dropdown notif + profile
+    (function () {
+      const notifBtn = document.getElementById("notificationBtn");
+      const notifDropdown = document.getElementById("notificationDropdown");
+      const profile = document.getElementById("userProfile");
+      const profileDropdown = document.getElementById("profileDropdown");
+
+      if (notifBtn && notifDropdown) {
+        notifBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          notifDropdown.classList.toggle("dropdown-show");
+          profileDropdown && profileDropdown.classList.remove("dropdown-show");
+        });
+      }
+
+      if (profile && profileDropdown) {
+        profile.addEventListener("click", function (e) {
+          e.stopPropagation();
+          profileDropdown.classList.toggle("dropdown-show");
+          notifDropdown && notifDropdown.classList.remove("dropdown-show");
+        });
+      }
+
+      document.addEventListener("click", function () {
+        notifDropdown && notifDropdown.classList.remove("dropdown-show");
+        profileDropdown && profileDropdown.classList.remove("dropdown-show");
+      });
+    })();
+
+    // logout top
+    (function(){
+      const btnLogoutTop = document.getElementById("btnLogoutTop");
+      if (!btnLogoutTop) return;
+      btnLogoutTop.addEventListener("click", () => {
+        if (!confirm("Logout?")) return;
+        try { sessionStorage.removeItem("user"); } catch(e){}
+        window.location.href = "signin.html";
+      });
+    })();
+
+    // SEARCH ENTER (demo)
+    (function () {
+      const searchInput = document.getElementById("searchInput");
+      if (!searchInput) return;
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const value = searchInput.value.trim();
+          if (value) alert('Pencarian: "' + value + '" (demo search)');
+        }
+      });
+    })();
+
+    // =========================
+    // CUSTOM SELECT SYNC
+    // =========================
+    (function(){
+      const selects = document.querySelectorAll(".cd-select");
+
+      function closeAll(except){
+        selects.forEach(s=>{
+          if (s !== except) {
+            s.classList.remove("open");
+            const btn = s.querySelector(".cd-select-btn");
+            if (btn) btn.setAttribute("aria-expanded","false");
+          }
+        });
+      }
+
+      function syncFromNative(cd){
+        const nativeId = cd.getAttribute("data-native");
+        const native = document.getElementById(nativeId);
+        if (!native) return;
+
+        const val = native.value;
+        const text = native.options[native.selectedIndex]?.text || "";
+
+        const valueEl = cd.querySelector(".cd-select-value");
+        if (valueEl) valueEl.textContent = text;
+
+        cd.querySelectorAll(".cd-option").forEach(opt=>{
+          opt.classList.toggle("selected", opt.getAttribute("data-value") === val);
+        });
+      }
+
+      selects.forEach(cd=>{
+        const btn = cd.querySelector(".cd-select-btn");
+        const panel = cd.querySelector(".cd-select-panel");
+        const nativeId = cd.getAttribute("data-native");
+        const native = document.getElementById(nativeId);
+
+        syncFromNative(cd);
+
+        if (btn) {
+          btn.addEventListener("click", (e)=>{
+            e.stopPropagation();
+            const isOpen = cd.classList.contains("open");
+            closeAll(cd);
+            cd.classList.toggle("open", !isOpen);
+            btn.setAttribute("aria-expanded", (!isOpen).toString());
+          });
+        }
+
+        if (panel && native) {
+          panel.addEventListener("click", (e)=>{
+            const opt = e.target.closest(".cd-option");
+            if (!opt) return;
+
+            const value = opt.getAttribute("data-value");
+            native.value = value;
+            native.dispatchEvent(new Event("change", { bubbles:true }));
+            syncFromNative(cd);
+
+            cd.classList.remove("open");
+            btn && btn.setAttribute("aria-expanded","false");
+          });
+        }
+      });
+
+      document.addEventListener("click", ()=> closeAll(null));
+      document.addEventListener("keydown", (e)=>{ if (e.key === "Escape") closeAll(null); });
+
+      ["themeSelect","fontSizeSelect","languageSelect"].forEach(id=>{
+        const native = document.getElementById(id);
+        if (!native) return;
+        native.addEventListener("change", ()=>{
+          const cd = document.querySelector('.cd-select[data-native="'+id+'"]');
+          if (cd) syncFromNative(cd);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+

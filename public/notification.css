@@ -1,0 +1,143 @@
+/* ============================================================
+   NOTIFICATIONS SECTION — FIXED & IMPROVED
+   ============================================================ */
+
+.settings-content {
+  flex-grow: 1;
+  padding: 40px 80px 40px 48px; /* kanan diperlebar */
+}
+
+/* Wrapper notifications lebih lebar */
+.notifications-wrapper {
+  max-width: 880px;         /* dari 560px → 880px */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Judul besar Notifications */
+.settings-tab[data-tab="notifications"] .content-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #4f4f4f;
+}
+
+/* Subjudul kecil */
+.settings-tab[data-tab="notifications"] .security-subtitle {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* Judul kecil section (General Preference, Contract Activity, Reminders) */
+.notif-group {
+  margin-bottom: 10px;
+}
+
+.notif-group-title {
+  font-size: 12px;
+  font-family: "Lato", sans-serif;
+  letter-spacing: 0.14em;
+  color: #b3b3b3;
+  margin-bottom: 10px;
+}
+
+/* Baris notifikasi */
+.notif-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 64px;              /* from 32px → 64px supaya toggle tidak mepet */
+  padding: 10px 0;
+}
+
+.notif-text {
+  flex: 1;
+}
+
+/* Judul notif */
+.notif-title {
+  font-size: 16px;        /* dari 14px */
+  color: #4f4f4f;
+  font-weight: 500;
+}
+
+/* Deskripsi notif */
+.notif-desc {
+  margin-top: 3px;
+  font-size: 13px;        /* dari 12px */
+  color: #8f8f8f;
+  max-width: none;        /* biar melar */
+  line-height: 1.4;
+}
+
+/* Garis pemisah antar grup */
+.notif-divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 16px 0 12px;
+}
+
+/* ============================================================
+   TOGGLE SWITCH (Dipertahankan, dirapikan)
+   ============================================================ */
+
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 52px;            /* sedikit lebih besar */
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggle-track {
+  width: 52px;
+  height: 26px;
+  border-radius: 999px;
+  background: #dcdcdc;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  box-sizing: border-box;
+  transition: background 0.25s ease;
+}
+
+.toggle-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+}
+
+.toggle-input:checked + .toggle-track {
+  background: #46c15c;
+}
+
+.toggle-input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(26px);
+}
+
+/* ============================================================
+   RESPONSIVE (Hanya bagian Notification)
+   ============================================================ */
+@media (max-width: 900px) {
+  .notifications-wrapper {
+    max-width: 100%;
+  }
+  .notif-row {
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

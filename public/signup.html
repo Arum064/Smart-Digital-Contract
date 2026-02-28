@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Sign Up – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+  <!-- Global + Signup CSS -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="signup.css" />
+
+  <!-- 🔧 PENYESUAIAN UKURAN (SEPERTI SIGNIN) -->
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { overflow: hidden !important; font-family: "Lato", sans-serif; }
+
+    /* ✅ Signin tidak pakai header, jadi header signup dibuat tidak memengaruhi layout */
+    .site-header{ display:none !important; }
+
+    /* ✅ area signup full layar seperti signin */
+    #signup { height: 100vh !important; }
+
+    #signup .signup-container{
+      height: 100vh !important;
+      width: 100% !important;
+      max-width: 1440px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+    }
+
+    #signup .signup-image-panel{
+      flex: 0 0 clamp(320px, 38vw, 560px) !important;
+      max-width: 560px !important;
+      height: 100vh !important;
+      overflow: hidden !important;
+      background: #ffffff !important;
+    }
+
+    #signup .signup-image-panel img{
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
+    }
+
+    #signup .signup-form-panel{
+      flex: 1 !important;
+      height: 100vh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 16px 28px !important;
+    }
+
+    #signup .signup-form-wrapper{
+      width: 100% !important;
+      max-width: 520px !important;
+    }
+
+    /* ✅ Samakan skala elemen seperti signin */
+    #signup .signup-form-header{ gap: 6px !important; }
+
+    #signup .signup-logo{
+      width: 90px !important;
+      height: 90px !important;
+    }
+
+    #signup .signup-title{
+      font-size: 28px !important;
+      margin: 6px 0 10px !important;
+      line-height: 1.15 !important;
+    }
+
+    #signup .form-group{ margin-bottom: 12px !important; }
+    #signup .input-label{ margin-bottom: 6px !important; font-size: 14px !important; }
+    #signup .input-line{ padding: 6px 4px 8px !important; font-size: 14px !important; }
+
+    #signup .remember-me{ margin-top: 0 !important; margin-bottom: 12px !important; }
+    #signup .remember-me-inner span{ font-size: 15px !important; }
+    #signup .remember-me-inner input[type="checkbox"]{ width: 16px !important; height: 16px !important; }
+
+    #signup .signup-submit-btn{
+      font-size: 18px !important;
+      padding: 10px !important;
+      margin-bottom: 10px !important;
+    }
+
+    #signup .signup-separator{
+      margin-bottom: 10px !important;
+      font-size: 13px !important;
+    }
+
+    #signup .signup-social-buttons{
+      gap: 10px !important;
+      margin-bottom: 10px !important;
+    }
+
+    #signup .btn-social{
+      padding: 9px 10px !important;
+      font-size: 14px !important;
+      gap: 10px !important;
+    }
+
+    #signup .btn-social img{
+      width: 20px !important;
+      height: 20px !important;
+    }
+
+    #signup .signup-login-prompt{
+      font-size: 14px !important;
+    }
+
+    @media (max-height: 800px){
+      #signup .signup-logo{ width: 78px !important; height: 78px !important; }
+      #signup .signup-title{ font-size: 24px !important; margin: 4px 0 8px !important; }
+      #signup .form-group{ margin-bottom: 10px !important; }
+    }
+
+    @media (max-width: 900px){
+      body { overflow: auto !important; }
+      #signup .signup-container{ flex-direction: column !important; height: auto !important; }
+      #signup .signup-image-panel{ display: none !important; }
+      #signup .signup-form-panel{ height: auto !important; padding: 24px 18px !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER (opsional) -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html#home" class="logo">
+        <img src="assets/signup/logo2.png" alt="PT Otak Kanan Logo">
+      </a>
+    </div>
+  </header>
+
+  <!-- SIGN UP SECTION -->
+  <section id="signup" class="signup-section">
+    <div class="signup-container">
+
+      <!-- LEFT ILLUSTRATION -->
+      <div class="signup-image-panel">
+        <img src="assets/signup/gambar-utama.png" alt="Sign up illustration">
+      </div>
+
+      <!-- RIGHT FORM -->
+      <main class="signup-form-panel">
+        <div class="signup-form-wrapper">
+
+          <!-- HEADER -->
+          <header class="signup-form-header">
+            <img src="assets/signup/logo2.png" alt="Company Logo" class="signup-logo">
+            <h1 class="signup-title">Get Started Now!</h1>
+          </header>
+
+          <!-- FORM -->
+          <form class="signup-form" action="dashboard.html" method="GET">
+
+            <!-- NAME -->
+            <div class="form-group">
+              <label class="input-label" for="signup-name">Name</label>
+              <input id="signup-name" name="name" type="text" class="input-line" placeholder="Enter your name" required>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+              <div class="input-header">
+                <label class="input-label" for="signup-email">Email Address</label>
+              </div>
+              <input id="signup-email" name="email" type="email" class="input-line" placeholder="example@mail.com" required>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group password-wrapper">
+              <div class="input-header">
+                <label class="input-label" for="signup-password">Password</label>
+              </div>
+
+              <div class="password-field">
+                <input
+                  id="signup-password"
+                  name="password"
+                  type="password"
+                  class="input-line"
+                  placeholder="Enter your password"
+                  required
+                />
+
+                <!-- ✅ FIX: hanya 1 src + path ke folder signup -->
+                <button type="button" class="password-toggle" aria-label="Show/Hide Password">
+                  <img
+                    src="assets/signup/eye-off.png"
+                    alt="Toggle password visibility"
+                    id="eye-icon"
+                    draggable="false"
+                  />
+                </button>
+              </div>
+            </div>
+
+            <!-- REMEMBER ME -->
+            <div class="remember-me">
+              <label class="remember-me-inner">
+                <input type="checkbox" name="remember">
+                <span>Remember Me</span>
+              </label>
+            </div>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="btn signup-submit-btn">Start Now</button>
+
+            <!-- SEPARATOR -->
+            <div class="signup-separator"><span>Or</span></div>
+
+            <!-- SOCIAL LOGINS -->
+            <div class="signup-social-buttons">
+              <a href="#" class="btn btn-social">
+                <img src="assets/signup/gambar2.png" alt="Google icon">
+                <span>Sign up with Google</span>
+              </a>
+              <a href="#" class="btn btn-social">
+                <img src="assets/signup/gambar2.png" alt="Apple icon">
+                <span>Sign up with Apple</span>
+              </a>
+            </div>
+
+            <!-- SIGN IN LINK -->
+            <p class="signup-login-prompt">
+              Already have an account?
+              <a href="signin.html" class="login-link">Sign In</a>
+            </p>
+
+          </form>
+        </div>
+      </main>
+
+    </div>
+  </section>
+
+  <!-- ✅ FIX: toggle pakai path assets/signup -->
+  <script>
+    const passwordInput = document.getElementById("signup-password");
+    const toggleBtn     = document.querySelector(".password-toggle");
+    const eyeIcon       = document.getElementById("eye-icon");
+
+    if (toggleBtn && passwordInput && eyeIcon) {
+      let visible = false;
+
+      toggleBtn.addEventListener("click", () => {
+        visible = !visible;
+        passwordInput.type = visible ? "text" : "password";
+        eyeIcon.src = visible
+          ? "assets/signup/eye-on.png"
+          : "assets/signup/eye-off.png";
+      });
+    }
+  </script>
+  <script>
+  const signupForm = document.querySelector(".signup-form");
+
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // ⛔ hentikan submit HTML default
+
+    const payload = {
+      full_name: document.getElementById("signup-name").value.trim(),
+      email: document.getElementById("signup-email").value.trim(),
+      password: document.getElementById("signup-password").value
+    };
+
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Signup gagal");
+        return;
+      }
+
+      alert("Signup berhasil ✅");
+      window.location.href = "signin.html";
+    } catch (err) {
+      console.error(err);
+      alert("Gagal terhubung ke server");
+    }
+  });
+</script>
+</body>
+</html>

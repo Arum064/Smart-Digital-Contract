@@ -1,0 +1,1008 @@
+:root {
+  /* tetap punya token settings */
+  --primary-orange: #f9980d;
+  --text-dark: #636363;
+  --text-light: #8f8f8f;
+  --bg-light: #f5f5f5;
+  --white: #ffffff;
+  --border-color: #e0e0e0;
+
+  /* token dashboard (biar match persis) */
+  --dash-primary: #f99b1c;
+  --dash-text: #636363;
+  --dash-bg-page: #f5f5f5;
+  --dash-bg-white: #ffffff;
+  --dash-bg-sidebar: #5f5f5f;
+  --dash-border: #bebebe;
+}
+
+/* ========== GLOBAL RESET ========== */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  font-family: "Lato", sans-serif; /* ✅ samain dashboard */
+  background-color: var(--dash-bg-page);
+  color: var(--dash-text);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ========== THEME MODES ========== */
+body.theme-light,
+body.theme-device {
+  background-color: var(--dash-bg-page);
+  color: var(--dash-text);
+}
+
+body.theme-dark {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+body.theme-dark .main-content {
+  background: #181818;
+}
+
+body.theme-dark .header-white,
+body.theme-dark .settings-card {
+  background-color: #1f1f1f;
+  box-shadow: 0 0 0 1px #2b2b2b;
+}
+
+body.theme-dark .page-title,
+body.theme-dark .content-header h2,
+body.theme-dark .section-label,
+body.theme-dark .avatar-name,
+body.theme-dark .notif-title,
+body.theme-dark .appearance-label {
+  color: #f5f5f5;
+}
+
+body.theme-dark .form-input,
+body.theme-dark .appearance-select {
+  background-color: #262626;
+  border-color: #3a3a3a;
+  color: #f5f5f5;
+}
+
+body.theme-dark .top-bar {
+  background-color: #1f1f1f;
+}
+
+body.theme-dark .sidebar {
+  background-color: #222;
+}
+
+/* ========== LAYOUT UTAMA ========== */
+.dashboard-layout {
+  width: 100%;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* =========================================================
+   ✅ SIDEBAR – SAMAIN PERSIS DASHBOARD
+========================================================= */
+.sidebar {
+  width: 80px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: var(--dash-bg-sidebar);
+  box-shadow: 4px 0 9px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 10;
+  transition: width 0.25s ease;
+  padding-top: 0;
+}
+
+.sidebar:hover {
+  width: 260px;
+}
+
+.sidebar-logo {
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 0;
+  width: auto;
+  background: transparent;
+}
+
+.sidebar-logo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #8d8d8d;
+  z-index: -1;
+}
+
+.sidebar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sidebar-nav {
+  margin-top: 40px;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  color: #fff;
+  text-decoration: none;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  flex-direction: row;
+  justify-content: flex-start;
+  opacity: 1;
+  font-size: 16px;
+  transition: none;
+}
+
+.sidebar-link img {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 0;
+  opacity: 0;
+  transition: max-width 0.25s ease, opacity 0.2s ease;
+}
+
+.sidebar:hover .nav-label {
+  max-width: 140px;
+  opacity: 1;
+}
+
+.sidebar-link.active,
+.sidebar-link:hover {
+  background: transparent;
+  opacity: 1;
+}
+
+.sidebar-link.active img {
+  filter: brightness(1.2);
+}
+
+/* AREA KANAN */
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--dash-bg-page);
+}
+
+/* =========================================================
+   ✅ TOP BAR – SAMAIN PERSIS DASHBOARD
+========================================================= */
+.top-bar {
+  height: 65px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 70px;
+  padding: 0 60px;
+  background-color: var(--dash-bg-white);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 10;
+}
+
+.top-bar .search-bar {
+  display: flex;
+  align-items: center;
+  width: 260px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #000;
+  margin: 0;
+}
+
+.top-bar .search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 250;
+  color: #000;
+  padding: 0;
+  margin: 0;
+}
+
+.top-bar .search-bar img {
+  width: 18px;
+  height: 18px;
+  margin-left: 0;
+}
+
+.user-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.separator {
+  width: 1px;
+  height: 40px;
+  background-color: #000;
+  opacity: 1;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-btn img {
+  width: 25px;
+  height: 25px;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 2px;
+  right: 1px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4d4f;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.user-profile img {
+  width: 30px;
+  height: 30px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #000;
+}
+
+.user-role {
+  font-size: 10px;
+  font-weight: 300;
+  color: #000;
+}
+
+.user-profile:hover .user-name {
+  text-decoration: none;
+}
+
+/* Dropdown notif & profile */
+.notification-dropdown,
+.profile-dropdown {
+  position: absolute;
+  top: 72px;
+  right: 0;
+  min-width: 220px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  padding: 10px 0;
+  display: none;
+  z-index: 20;
+}
+
+.notification-dropdown {
+  right: 80px;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  white-space: normal;
+}
+
+.dropdown-item:hover {
+  background: #f5f5f5;
+}
+
+.dropdown-header {
+  padding: 6px 16px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #999;
+}
+
+.dropdown-footer {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #ff7a00;
+  cursor: pointer;
+  border-top: 1px solid #f1f1f1;
+}
+
+.dropdown-footer:hover {
+  background: #fff7ed;
+}
+
+.dropdown-show {
+  display: block;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main-content {
+  background: var(--dash-bg-page);
+  padding: 5px 40px 40px;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+/* =========================================================
+   ✅ HEADER PUTIH (judul Settings)
+========================================================= */
+.dashboard-header {
+  margin-bottom: 24px;
+}
+
+.header-white {
+  background: var(--dash-bg-white);
+  border-radius: 0;
+  padding: 14px 24px !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.header-white hr,
+.dashboard-header hr,
+.header-line,
+.horizontal-divider,
+.security-header-line {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ✅ PERBAIKAN UTAMA: Samakan judul "Settings" dengan "Dashboard" */
+.page-title {
+  font-family: "Lato", sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: var(--dash-text) !important;
+  letter-spacing: 0 !important;
+  margin: 0 !important;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.btn-cancel {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--primary-orange);
+}
+
+.btn-save {
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: var(--primary-orange);
+  color: #fff;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.25);
+}
+
+/* Card putih setting */
+.settings-card-wrapper {
+  max-width: 100%;
+  margin: 16px auto 0;
+}
+
+.settings-card {
+  width: 100%;
+  max-width: 100%;
+  min-height: 520px;
+  display: flex;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 1px #e5e5e5;
+  box-sizing: border-box;
+}
+
+/* NAV KIRI */
+.settings-nav {
+  width: 260px;
+  padding: 50px 40px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  flex-shrink: 0;
+}
+
+.settings-nav .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-dark);
+  background: none;
+}
+
+.settings-nav .nav-item.active {
+  color: var(--primary-orange);
+}
+
+.settings-nav .icon-wrapper {
+  width: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.vertical-divider {
+  width: 1px;
+  margin: 40px 0;
+  background-color: var(--text-dark);
+  opacity: 0.25;
+}
+
+/* TAB WRAPPER */
+.settings-tab {
+  display: none;
+}
+.settings-tab.active {
+  display: block;
+}
+
+/* KONTEN KANAN UMUM */
+.settings-content {
+  flex-grow: 1;
+  padding: 40px 80px 40px 56px;
+}
+
+.content-header h2 {
+  margin: 0 0 4px 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.content-header p {
+  margin: 0;
+}
+
+.subtitle,
+.security-subtitle {
+  margin-top: 4px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #888;
+}
+
+.horizontal-divider,
+.security-header-line,
+.header-line {
+  width: 100%;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin-top: 18px;
+  margin-bottom: 24px;
+}
+
+/* Avatar + info (tab Personal) */
+.section-label {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.avatar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.avatar-wrapper {
+  margin-right: 20px;
+}
+
+.avatar-info {
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+}
+
+.avatar-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.avatar-role {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.avatar-actions {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.btn-upload {
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: var(--primary-orange);
+  color: #fff;
+}
+
+.btn-delete {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--primary-orange);
+}
+
+/* FORM UMUM */
+.form-section {
+  max-width: 1050px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.form-input {
+  height: 46px;
+  padding: 0 15px;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid var(--text-dark);
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+select.form-input {
+  padding-right: 32px;
+}
+
+/* ========== TAB SECURITY ========== */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+}
+
+.password-section,
+.session-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.password-section {
+  gap: 12px;
+}
+
+.session-section {
+  gap: 16px;
+}
+
+.btn-outline {
+  margin-top: 16px;
+  height: 46px;
+  background: #fff7ea;
+  border: 1px solid #f99b1c;
+  border-radius: 10px;
+  color: #f99b1c;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 0 30px;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.btn-outline:hover {
+  background-color: #ffe2b8;
+}
+
+.btn-full-width {
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Card device */
+.device-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 105px;
+}
+
+.device-info-left {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+}
+
+.device-icon {
+  width: 60px;
+  height: 60px;
+}
+
+.device-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.device-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.device-name,
+.browser-name {
+  font-size: 16px;
+  color: #636363;
+}
+
+.dot-separator {
+  width: 24px;
+  height: 24px;
+}
+
+.location-text {
+  font-size: 14px;
+  color: #8f8f8f;
+}
+
+.device-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 40px;
+  height: 40px;
+}
+
+.status-text.active {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.status-text.logout {
+  color: #d71f40;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* ========== TAB NOTIFICATIONS ========== */
+.settings-tab[data-tab="notifications"] .content-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #4f4f4f;
+}
+
+.settings-tab[data-tab="notifications"] .security-subtitle {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* Wrapper notifications full width */
+.notifications-wrapper {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.notif-group {
+  margin-bottom: 10px;
+}
+
+.notif-group-title {
+  font-size: 12px;
+  font-family: "Lato", sans-serif;
+  letter-spacing: 0.14em;
+  color: #b3b3b3;
+  margin-bottom: 10px;
+}
+
+.notif-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 160px;
+  padding: 10px 0;
+}
+
+.notif-text {
+  flex: 1;
+}
+
+.notif-title {
+  font-size: 16px;
+  color: #4f4f4f;
+  font-weight: 500;
+}
+
+.notif-desc {
+  margin-top: 3px;
+  font-size: 13px;
+  color: #8f8f8f;
+  max-width: 600px;
+  line-height: 1.4;
+}
+
+.notif-divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 16px 0 12px;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 52px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggle-track {
+  width: 52px;
+  height: 26px;
+  border-radius: 999px;
+  background: #dcdcdc;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  box-sizing: border-box;
+  transition: background 0.25s ease;
+}
+
+.toggle-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+}
+
+.toggle-input:checked + .toggle-track {
+  background: #46c15c;
+}
+
+.toggle-input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(26px);
+}
+
+/* ========== TAB APPEARANCE ========== */
+.settings-tab[data-tab="appearance"] .content-header h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #4f4f4f;
+}
+
+.settings-tab[data-tab="appearance"] .security-subtitle {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.appearance-wrapper {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.appearance-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.appearance-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.select-wrapper {
+  width: 100%;
+  max-width: 520px;
+}
+
+.appearance-select {
+  width: 100%;
+  height: 46px;
+  border-radius: 10px;
+  border: 1px solid #cfcfcf;
+  padding: 0 16px;
+  font-size: 14px;
+  color: #333;
+  background-color: #ffffff;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1200px) {
+  .settings-card {
+    flex-direction: column;
+  }
+
+  .settings-nav {
+    width: 100%;
+    flex-direction: row;
+    padding: 24px 24px 12px;
+    gap: 30px;
+    overflow-x: auto;
+    border-bottom: 1px solid #eee;
+  }
+
+  .vertical-divider {
+    display: none;
+  }
+
+  .settings-content {
+    padding: 24px;
+  }
+
+  .avatar-row {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .notif-row {
+    gap: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    height: 80px;
+    padding: 0 20px;
+    gap: 16px;
+  }
+
+  .top-bar .search-bar {
+    display: none;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .settings-nav .nav-item span {
+    display: none;
+  }
+
+  .settings-content {
+    padding: 20px;
+  }
+
+  .notifications-wrapper {
+    max-width: 100%;
+  }
+
+  .notif-row {
+    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .appearance-wrapper {
+    max-width: 100%;
+  }
+
+  .sidebar:hover {
+    width: 100%;
+  }
+}

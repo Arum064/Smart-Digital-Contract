@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Approval – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Inline CSS (biar approval.css tetap bisa override kalau perlu) -->
+  <style>
+    body { margin: 0; font-family: "Lato", sans-serif; }
+
+    /* Main content mengikuti dashboard */
+    .main-content {
+      flex: 1;
+      max-width: 1787px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 5px 40px 40px;
+    }
+
+    .dashboard-header {
+      padding: 12px 24px;
+      background: #fff;
+      border-radius: 6px;
+      margin: 12px 0 18px 0;
+    }
+
+    .dashboard-header h1 {
+      font-size: 32px;
+      line-height: 1.2;
+      margin: 0 0 4px 0;
+      font-weight: 500;
+      color: var(--dash-text);
+    }
+
+    /* Upload + Status Card */
+    .approval-summary {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .summary-card {
+      background: #fff;
+      border: 1px solid #e7e7e7;
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+
+    .summary-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #636363;
+      margin-bottom: 12px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #e6e6e6;
+      color: #6a6a6a;
+      background: #fafafa;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #cfcfcf;
+      display: inline-block;
+    }
+
+    .chip.ok { border-color: rgba(0,128,0,.25); background: rgba(0,128,0,.06); color: #236b23; }
+    .chip.ok .dot { background: #2aa52a; }
+
+    .chip.warn { border-color: rgba(249,155,28,.35); background: rgba(249,155,28,.10); color: #8a4a00; }
+    .chip.warn .dot { background: var(--dash-primary); }
+
+    .chip.bad { border-color: rgba(176,0,32,.30); background: rgba(176,0,32,.06); color: #7a0017; }
+    .chip.bad .dot { background: #b00020; }
+
+    .upload-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .upload-left {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-pill {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-family: "Lato", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      transition: transform .08s ease;
+      white-space: nowrap;
+    }
+
+    .btn-pill:active { transform: translateY(1px); }
+
+    .btn-primary { background: var(--dash-primary); color: #fff; }
+    .btn-outline { background: #fff; color: #636363; border: 1px solid #e0e0e0; }
+
+    .file-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 260px;
+      max-width: 520px;
+    }
+
+    .file-name {
+      font-size: 13px;
+      color: #393939;
+      font-weight: 800;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .file-sub {
+      font-size: 12px;
+      color: #8f8f8f;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 18px;
+    }
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .summary-label {
+      font-size: 12px;
+      color: #8f8f8f;
+      font-weight: 600;
+    }
+
+    .summary-value {
+      font-size: 14px;
+      color: #393939;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .helper-text {
+      font-size: 12px;
+      color: #8d8d8d;
+      line-height: 1.35;
+    }
+
+    .approval-notes { margin-top: 6px; }
+
+    .notes-label {
+      font-size: 12px;
+      color: #8f8f8f;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .notes-box {
+      border: 1px solid #d1d1d1;
+      border-radius: 12px;
+      padding: 12px 14px;
+      min-height: 92px;
+      background: #fff;
+    }
+
+    .notes-box textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: "Lato", sans-serif;
+      color: #636363;
+      font-size: 13px;
+      resize: none;
+      min-height: 68px;
+    }
+
+    .approval-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .btn-action {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-family: "Lato", sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      transition: transform .08s ease;
+      white-space: nowrap;
+    }
+
+    .btn-action:active { transform: translateY(1px); }
+
+    .btn-approve {
+      background: #ffecdb;
+      color: #9a5a00;
+      border: 1px solid rgba(249,155,28,.45);
+    }
+
+    .btn-reject {
+      background: #fff;
+      color: #b00020;
+      border: 1px solid rgba(176,0,32,.35);
+    }
+
+    .btn-download { background: var(--dash-primary); color: #fff; }
+
+    /* Panel kanan */
+    .right-column { align-items: stretch !important; padding-top: 8px; }
+
+    .preview-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .toolbar-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid #e7e7e7;
+      background: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .08s ease, opacity .12s ease, background .12s ease;
+    }
+
+    .icon-btn:active { transform: translateY(1px); }
+    .icon-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+    .icon-btn.pen {
+      background: var(--dash-primary);
+      border-color: rgba(249,155,28,.35);
+    }
+
+    .icon-btn.pen svg { fill: #fff; }
+
+    .icon-btn.pen.active {
+      box-shadow: 0 0 0 4px rgba(249,155,28,.18);
+    }
+
+    .icon-btn svg { width: 18px; height: 18px; fill: #9a9a9a; }
+    .icon-btn:hover { background: #fafafa; }
+    .icon-btn.pen:hover { background: var(--dash-primary); }
+
+    .preview-wrap {
+      width: 100%;
+      max-width: 744px;
+      height: 520px;
+      border: 1px solid #000;
+      border-radius: 20px;
+      background: #fff;
+      overflow: auto;
+      position: relative;
+    }
+
+    .pdf-pages {
+      position: relative;
+      width: 100%;
+      padding: 14px;
+      box-sizing: border-box;
+    }
+
+    .pdf-page {
+      position: relative;
+      margin: 0 auto 18px auto;
+      width: fit-content;
+    }
+
+    .pdf-canvas {
+      display: block;
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .ink-canvas {
+      position: absolute;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 1200px) {
+      .summary-grid { grid-template-columns: 1fr; }
+      .file-meta { min-width: 0; }
+    }
+  </style>
+
+  <!-- CSS utama -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="approval.css" />
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- PDF-LIB (export PDF final) -->
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+
+<body id="approval-page">
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/approval/logo.png" alt="Company Logo" />
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="dashboard.html" class="sidebar-link">
+              <img src="assets/approval/dashboard.png" alt="Dashboard" />
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="contract.html" class="sidebar-link">
+              <img src="assets/approval/contract.png" alt="Contract" />
+              <span class="nav-label">Contract</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="approval.html" class="sidebar-link active">
+              <img src="assets/approval/approval.png" alt="Approval" />
+              <span class="nav-label">Approval</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="settings.html" class="sidebar-link">
+              <img src="assets/approval/setting - Copy.png" alt="Settings" />
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main container -->
+    <div class="main-container">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="search-bar">
+          <input id="global-search" type="text" placeholder="Search" />
+          <img src="assets/approval/search.png" alt="Search Icon" />
+        </div>
+
+        <div class="user-actions">
+          <button class="notification-btn" id="btnNotification" type="button">
+            <img src="assets/approval/notification.png" alt="Notifications" />
+          </button>
+
+          <div class="separator"></div>
+
+          <div class="user-profile" id="btnProfile" style="cursor: pointer;">
+            <img src="assets/approval/profile.png" alt="Profile" />
+            <div class="user-info">
+              <span class="user-name">Nama</span>
+              <span class="user-role">Jabatan</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <main class="main-content">
+        <section class="dashboard-header">
+          <h1>Approval</h1>
+        </section>
+
+        <section class="approval-card-container">
+          <!-- Left column -->
+          <div class="approval-column left-column">
+            <div class="status-badge">
+              <span class="status-text" id="approvalStatusText">Pending Approval</span>
+            </div>
+
+            <div class="contract-header">
+              <h2 class="contract-title" id="docTitle">Kontrak / LOA</h2>
+              <span class="contract-id" id="docId">CTR-____-____</span>
+            </div>
+
+            <div class="approval-summary">
+              <div class="summary-card">
+                <div class="summary-title">
+                  Dokumen untuk Ditandatangani
+                  <span class="chip warn" id="chipDoc">
+                    <span class="dot"></span> Belum ada file
+                  </span>
+                </div>
+
+                <div class="upload-row">
+                  <div class="upload-left">
+                    <button class="btn-pill btn-primary" id="btnPickDoc" type="button">Upload Document</button>
+                    <button class="btn-pill btn-outline" id="btnClearDoc" type="button">Clear</button>
+
+                    <input
+                      id="docInput"
+                      type="file"
+                      accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      style="display: none;"
+                    />
+                  </div>
+
+                  <div class="file-meta">
+                    <div class="file-name" id="fileName">-</div>
+                    <div class="file-sub" id="fileInfo">Upload dokumen (PDF/DOC/DOCX) yang akan ditandatangani.</div>
+                  </div>
+                </div>
+
+                <div class="summary-grid">
+                  <div class="summary-item">
+                    <div class="summary-label">Tipe File</div>
+                    <div class="summary-value" id="fileType">-</div>
+                  </div>
+
+                  <div class="summary-item">
+                    <div class="summary-label">Ukuran File</div>
+                    <div class="summary-value" id="fileSize">-</div>
+                  </div>
+
+                  <div class="summary-item">
+                    <div class="summary-label">Status TTD Digital</div>
+                    <div class="summary-value" id="sigStatus">Belum ditandatangani</div>
+                  </div>
+
+                  <div class="summary-item">
+                    <div class="summary-label">TTD PNG</div>
+                    <div class="summary-value" id="pngStatus">Belum dipilih</div>
+                  </div>
+                </div>
+
+                <div class="helper-text" style="margin-top: 10px;">
+                  Untuk PDF: klik ikon ✍️ (pen) untuk mulai tanda tangan langsung di atas halaman PDF.
+                  <br />
+                  Untuk DOC/DOCX: preview tidak tersedia di browser.
+                </div>
+              </div>
+
+              <div class="summary-card approval-notes">
+                <label class="notes-label" for="approverNotes">Approver Notes (optional)</label>
+
+                <div class="notes-box">
+                  <textarea id="approverNotes" placeholder="Tulis catatan approval di sini..."></textarea>
+                </div>
+
+                <div class="helper-text" style="margin-top: 10px;">
+                  Di halaman Approval, user cukup upload dokumen yang akan ditandatangani, bubuhkan tanda tangan, lalu download final.
+                </div>
+
+                <div class="approval-actions">
+                  <button class="btn-action btn-approve" id="btnApprove" type="button">Approve</button>
+                  <button class="btn-action btn-reject" id="btnReject" type="button">Reject</button>
+                  <button class="btn-action btn-download" id="btnDownloadFinal" type="button">Download Document (Final)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="approval-divider"></div>
+
+          <!-- Right column -->
+          <div class="approval-column right-column">
+            <h3 class="section-title">Preview</h3>
+
+            <div class="preview-toolbar">
+              <div class="helper-text" style="max-width: 520px;">
+                PDF akan tampil di sini. Klik ikon ✍️ untuk mulai tanda tangan langsung di atas PDF.
+              </div>
+
+              <div class="toolbar-right">
+                <button class="btn-action btn-approve" id="btnPickTtdPng" type="button" style="padding: 8px 14px;">
+                  TTD PNG
+                </button>
+
+                <input id="ttdPngInput" type="file" accept="image/png" style="display: none;" />
+
+                <button class="icon-btn" id="btnUndo" type="button" title="Undo" disabled>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 7v4h4l-1.6-1.6c3.9-2.9 9.6-1.1 11 3.6.3 1 .3 2.1 0 3.1-.2.6.1 1.1.7 1.3.6.2 1.1-.1 1.3-.7.4-1.4.4-2.9 0-4.3C21 6.9 13.8 4.6 8.9 8.2L7 7z"/>
+                  </svg>
+                </button>
+
+                <button class="icon-btn" id="btnRedo" type="button" title="Redo" disabled>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M17 7l-1.9 1.2C10.2 4.6 3 6.9 1.6 12.4c-.4 1.4-.4 2.9 0 4.3.2.6.7.9 1.3.7.6-.2.9-.7.7-1.3-.3-1-.3-2.1 0-3.1 1.4-4.7 7.1-6.5 11-3.6L13 11h4V7z"/>
+                  </svg>
+                </button>
+
+                <button class="icon-btn pen" id="btnPen" type="button" title="Pen">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.83H5v-.92l9.06-9.06.92.92L5.92 20.08zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="preview-wrap" id="previewWrap">
+              <div class="pdf-pages" id="pdfPages">
+                <div class="preview-inner" id="previewInner">
+                  Belum ada dokumen. Klik <b>Upload Document</b> di kiri.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- FIX: Terima ?id=... atau ?contract_id=... -->
+  <script>
+    (function () {
+      const qs = new URLSearchParams(window.location.search);
+      const cid = qs.get("contract_id") || qs.get("id");
+
+      if (!cid) return;
+
+      // Normalisasi URL agar kode integration kamu yang mencari `contract_id` tidak error
+      if (!qs.get("contract_id") && qs.get("id")) {
+        const newUrl = `${window.location.pathname}?contract_id=${encodeURIComponent(cid)}`;
+        window.history.replaceState(null, "", newUrl);
+      }
+    })();
+  </script>
+
+  <script src="approval.integration.js"></script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Sign In – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Global & SignIn CSS -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="signup.css?v=5" />
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body { overflow: hidden !important; }
+
+    #signup { height: 100vh !important; }
+    #signup .signup-container{
+      height: 100vh !important;
+      width: 100% !important;
+      max-width: 1440px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+    }
+
+    #signup .signup-image-panel{
+      flex: 0 0 clamp(320px, 38vw, 560px) !important;
+      max-width: 560px !important;
+      height: 100vh !important;
+      background: #ffffff !important;
+      overflow: hidden !important;
+    }
+
+    #signup .signup-image-panel img{
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
+    }
+
+    #signup .signup-form-panel{
+      flex: 1 !important;
+      height: 100vh !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 16px 28px !important;
+    }
+
+    #signup .signup-form-wrapper{
+      width: 100% !important;
+      max-width: 520px !important;
+    }
+
+    #signup .signup-form-header{ gap: 6px !important; }
+
+    #signup .signup-logo{
+      width: 90px !important;
+      height: 90px !important;
+    }
+
+    #signup .signup-title{
+      font-size: 28px !important;
+      margin: 6px 0 10px !important;
+      line-height: 1.15 !important;
+    }
+
+    #signup .form-group{ margin-bottom: 12px !important; }
+    #signup .input-label{ margin-bottom: 6px !important; font-size: 14px !important; }
+    #signup .input-line{ padding: 6px 4px 8px !important; font-size: 14px !important; }
+
+    #signup .forgot-password-link,
+    #signup .input-header a { font-size: 13px !important; }
+
+    #signup .remember-me{ margin-top: 0 !important; margin-bottom: 12px !important; }
+    #signup .remember-me-inner span{ font-size: 15px !important; }
+    #signup .remember-me-inner input[type="checkbox"]{ width: 16px !important; height: 16px !important; }
+
+    #signup .signup-submit-btn{
+      font-size: 18px !important;
+      padding: 10px !important;
+      margin-bottom: 10px !important;
+    }
+
+    #signup .signup-separator{
+      margin-bottom: 10px !important;
+      font-size: 13px !important;
+    }
+
+    #signup .signup-social-buttons{
+      gap: 10px !important;
+      margin-bottom: 10px !important;
+    }
+
+    #signup .btn-social{
+      padding: 9px 10px !important;
+      font-size: 14px !important;
+      gap: 10px !important;
+    }
+
+    #signup .btn-social img{
+      width: 20px !important;
+      height: 20px !important;
+    }
+
+    #signup .signup-login-prompt{
+      font-size: 14px !important;
+    }
+
+    /* pesan info/error login */
+    .login-error{
+      display:none; /* ✅ default: sembunyi */
+      margin: 6px 0 12px;
+      font-size: 13px;
+      color: #d93025;
+    }
+
+    .login-error a{
+      color: #d93025;
+      text-decoration: underline;
+    }
+
+    @media (max-height: 800px){
+      #signup .signup-logo{ width: 78px !important; height: 78px !important; }
+      #signup .signup-title{ font-size: 24px !important; margin: 4px 0 8px !important; }
+      #signup .form-group{ margin-bottom: 10px !important; }
+    }
+
+    @media (max-width: 900px){
+      body{ overflow: auto !important; }
+      #signup .signup-container{ flex-direction: column !important; height: auto !important; }
+      #signup .signup-image-panel{ display:none !important; }
+      #signup .signup-form-panel{ height: auto !important; padding: 24px 18px !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+<section id="signup" class="signup-section">
+  <div class="signup-container">
+
+    <div class="signup-image-panel" aria-hidden="true">
+      <img src="assets/signin/gambar-utama.png" alt="" draggable="false" />
+    </div>
+
+    <main class="signup-form-panel">
+      <div class="signup-form-wrapper">
+
+        <header class="signup-form-header">
+          <img
+            src="assets/signin/logo2.png"
+            alt="Logo"
+            class="signup-logo"
+            style="margin-left: 30px;"
+          />
+          <h1 class="signup-title">Welcome Back!</h1>
+        </header>
+
+        <form id="login-form" class="signup-form" autocomplete="on" novalidate>
+
+          <div class="form-group">
+            <label class="input-label" for="login-username">Full Name</label>
+            <input id="login-username" name="full_name" type="text"
+              class="input-line" placeholder="Enter your full name"
+              autocomplete="name" required />
+          </div>
+
+          <div class="form-group">
+            <div class="input-header">
+              <label class="input-label" for="login-password">Password</label>
+              <a href="javascript:void(0)" class="forgot-password-link"></a>
+            </div>
+
+            <div class="password-field">
+              <input id="login-password" name="password" type="password"
+                class="input-line" placeholder="Enter your password"
+                autocomplete="current-password" required />
+
+              <button type="button" class="password-toggle" aria-label="Show/Hide Password">
+                <img src="assets/signin/eye-off.png" id="login-eye-icon" alt="" draggable="false" />
+              </button>
+            </div>
+          </div>
+
+          <!-- ✅ muncul hanya saat akun tidak terdaftar -->
+          <div id="login-error" class="login-error">
+            Anda belum memiliki akun. Silakan
+            <a href="signup.html">Sign Up</a>
+            terlebih dahulu.
+          </div>
+
+          <div class="remember-me">
+            <label class="remember-me-inner">
+              <input id="remember-me" type="checkbox" name="remember" />
+              <span>Remember Me</span>
+            </label>
+          </div>
+
+          <button id="login-submit" type="submit" class="btn signup-submit-btn">Start Now</button>
+
+          <div class="signup-separator"><span>Or</span></div>
+
+          <div class="signup-social-buttons">
+            <a href="javascript:void(0)" class="btn btn-social">
+              <img src="assets/signin/gambar1.png" alt="" draggable="false" />
+              <span>Log in with Google</span>
+            </a>
+            <a href="javascript:void(0)" class="btn btn-social">
+              <img src="assets/signin/gambar2.png" alt="" draggable="false" />
+              <span>Log in with Apple</span>
+            </a>
+          </div>
+
+          <p class="signup-login-prompt">
+            Don’t have an account?
+            <a href="signup.html" class="login-link">Sign Up</a>
+          </p>
+
+        </form>
+      </div>
+    </main>
+
+  </div>
+</section>
+
+<script>
+  // =========================
+  // 1) Eye toggle
+  // =========================
+  const toggleLoginPassword = document.querySelector(".password-toggle");
+  const loginPasswordField = document.getElementById("login-password");
+  const loginEyeIcon = document.getElementById("login-eye-icon");
+
+  if (toggleLoginPassword && loginPasswordField && loginEyeIcon) {
+    let loginVisible = false;
+    toggleLoginPassword.addEventListener("click", () => {
+      loginVisible = !loginVisible;
+      loginPasswordField.type = loginVisible ? "text" : "password";
+      loginEyeIcon.src = loginVisible
+        ? "assets/signin/eye-on.png"
+        : "assets/signin/eye-off.png";
+    });
+  }
+
+  // =========================
+  // 2) Remember Me - autofill
+  // =========================
+  (function autoFillRemembered() {
+    try {
+      const remembered = localStorage.getItem("remember_login");
+      if (!remembered) return;
+
+      const obj = JSON.parse(remembered);
+      if (obj?.email) {
+        document.getElementById("login-username").value = obj.email;
+        document.getElementById("remember-me").checked = true;
+      }
+    } catch (e) {}
+  })();
+
+  // =========================
+  // 3) LOGIN VIA API
+  //    - sukses: simpan user (id dkk) ke storage
+  //    - gagal karena tidak terdaftar: munculkan pesan
+  // =========================
+  const loginForm = document.getElementById("login-form");
+  // NOTE: di UI field ini tertulis "Username", tapi backend Auth memakai email.
+  // Agar flow signup -> signin konsisten, kita treat input ini sebagai EMAIL.
+  const emailEl = document.getElementById("login-username");
+  const passEl = document.getElementById("login-password");
+  const rememberEl = document.getElementById("remember-me");
+  const submitBtn = document.getElementById("login-submit");
+  const loginError = document.getElementById("login-error");
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = emailEl.value.trim();
+    const password = passEl.value;
+    const remember = !!rememberEl.checked;
+
+    if (!email || !password) return;
+
+    // hide error dulu setiap kali submit
+    if (loginError) loginError.style.display = "none";
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json().catch(() => ({}));
+      const msg = String(data.message || "").toLowerCase();
+
+      const isNotRegistered =
+        res.status === 401 ||
+        res.status === 404 ||
+        msg.includes("belum terdaftar") ||
+        msg.includes("akun belum") ||
+        msg.includes("tidak ditemukan");
+
+      if (!res.ok) {
+        if (isNotRegistered) {
+          if (loginError) loginError.style.display = "block";
+          return;
+        }
+
+        alert(
+          `Login gagal (HTTP ${res.status})\n` +
+          `${data.message || "Server error"}\n` +
+          (data.error ? `\nDetail: ${data.error}` : "")
+        );
+        return;
+      }
+
+      // ✅ ini yang penting untuk owner_id otomatis
+      const userPayload = data.user || data;
+
+      // reset storage lama biar tidak bentrok
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
+
+      if (remember) {
+        localStorage.setItem("user", JSON.stringify(userPayload));
+        localStorage.setItem("remember_login", JSON.stringify({ email }));
+      } else {
+        sessionStorage.setItem("user", JSON.stringify(userPayload));
+        localStorage.removeItem("remember_login");
+      }
+
+      // ✅ arahkan ke contract biar user langsung bisa bikin kontrak (masuk MySQL)
+      window.location.href = "contract.html";
+    } catch (err) {
+      console.error(err);
+      alert("Gagal terhubung ke server. Pastikan backend Express jalan di port 5000.");
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>

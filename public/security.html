@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Settings – Security – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font Lato & Inter -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS utama + layout + settings -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="settings.css" />
+
+  <style>
+    /* =========================
+       SECURITY PAGE CSS (OVERRIDE) - CLEAN
+    ========================= */
+    :root{
+      --primary-orange:#f9980d;
+      --text-dark:#636363;
+      --text-light:#8f8f8f;
+      --bg-page:#f5f5f5;
+      --bg-content:#f0f0f0;
+      --white:#ffffff;
+      --border:#e4e4e4;
+      --shadow:0 8px 18px rgba(0,0,0,.06);
+      --radius:12px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; min-height:100vh; }
+    body{
+      font-family:"Lato","Inter",sans-serif;
+      background:var(--bg-page);
+      color:var(--text-dark);
+    }
+
+    /* =========================
+       LAYOUT UTAMA
+    ========================= */
+    .dashboard-layout{
+      width:100%;
+      margin:0;
+      display:flex;
+      min-height:100vh;
+    }
+    .main-container{
+      flex:1;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* =========================
+       TOP BAR (ikuti gaya settings)
+    ========================= */
+    .top-bar{
+      width:100%;
+      height:122px;
+      padding:0 40px;
+      background:var(--white);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid var(--border);
+      box-shadow:none;
+      position:sticky;
+      top:0;
+      z-index:10;
+    }
+
+    .top-bar .search-bar{
+      display:flex;
+      align-items:center;
+      width:260px;
+      max-width:260px;
+      gap:8px;
+    }
+    .top-bar .search-bar input{
+      width:100%;
+      border:none;
+      border-bottom:1px solid #000;
+      background:transparent;
+      padding:4px 0;
+      font-size:16px;
+      color:#000;
+      outline:none;
+    }
+    .top-bar .search-bar img{
+      width:20px;
+      height:20px;
+      display:block;
+      filter: brightness(0) saturate(100%);
+    }
+
+    .user-actions{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      position:relative;
+    }
+    .separator{
+      width:1px;
+      height:40px;
+      background:#000;
+      opacity:.9;
+    }
+
+    .notification-btn{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0;
+      border:none;
+      background:none;
+      cursor:pointer;
+    }
+    .notification-btn img{
+      width:28px;
+      height:28px;
+      display:block;
+      filter: brightness(0) saturate(100%);
+    }
+
+    /* ✅ hilangkan dot merah */
+    .notification-dot{ display:none !important; }
+
+    .user-profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .user-profile img{
+      width:45px;
+      height:45px;
+      border-radius:50%;
+      object-fit:cover;
+      display:block;
+    }
+    .user-info{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+    .user-name{
+      font-weight:700;
+      font-size:16px;
+      color:#000;
+    }
+    .user-role{
+      font-size:14px;
+      color:#000;
+    }
+
+    .notification-dropdown,
+    .profile-dropdown{
+      position:absolute;
+      top:56px;
+      right:0;
+      min-width:240px;
+      background:#fff;
+      border-radius:14px;
+      box-shadow:0 10px 24px rgba(0,0,0,.12);
+      padding:10px 0;
+      display:none;
+      z-index:50;
+    }
+    .notification-dropdown{ right:84px; }
+    .dropdown-show{ display:block; }
+
+    .dropdown-header{
+      padding:6px 16px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:#999;
+    }
+    .dropdown-item{
+      padding:10px 16px;
+      font-size:13px;
+      color:#333;
+      cursor:pointer;
+      white-space:normal;
+    }
+    .dropdown-item:hover{ background:#f5f5f5; }
+    .dropdown-footer{
+      padding:10px 16px;
+      font-size:12px;
+      color:var(--primary-orange);
+      cursor:pointer;
+      border-top:1px solid #f1f1f1;
+    }
+    .dropdown-footer:hover{ background:#fff7ed; }
+
+    /* =========================
+       MAIN CONTENT
+    ========================= */
+    .main-content{
+      background:var(--bg-content);
+      padding:24px 24px 40px;
+      width:100%;
+    }
+
+    .dashboard-header{ margin-bottom:24px; }
+    .header-white{
+      background:#fff;
+      border-radius:0;
+      padding:24px 24px 18px;
+      border-bottom:1px solid var(--border);
+      box-shadow:none;
+    }
+    .page-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .page-title{
+      margin:0;
+      font-size:32px;
+      font-weight:600;
+      color:#4f4f4f;
+      letter-spacing:.2px;
+    }
+
+    .header-white,
+    .settings-card-wrapper{
+      max-width:2000px;
+      margin:0 auto;
+    }
+    .settings-card-wrapper{ margin-top:16px; }
+
+    /* =========================
+       SETTINGS CARD
+    ========================= */
+    .settings-card{
+      width:100%;
+      margin:0;
+      min-height:520px;
+      display:flex;
+      background:#fff;
+      border-radius:0;
+      box-shadow:0 1px 2px rgba(0,0,0,.10);
+    }
+
+    /* =========================
+       SETTINGS NAV (Icon Grey -> Orange Active)
+    ========================= */
+    .settings-nav{
+      width:336px;
+      padding:50px 0 0 55px;
+      display:flex;
+      flex-direction:column;
+      gap:19px;
+      flex:0 0 336px;
+    }
+
+    .settings-nav .nav-item{
+      display:flex;
+      align-items:center;
+      gap:25px;
+      font-size:18px;
+      font-weight:500;
+      color:var(--text-dark);
+      text-decoration:none;
+      padding:8px 10px;
+      border-radius:10px;
+      transition: background .15s ease, color .15s ease;
+    }
+    .settings-nav .nav-item:hover{
+      background:#fafafa;
+    }
+    .settings-nav .nav-item.active{
+      color:var(--primary-orange);
+      background:transparent;
+    }
+
+    .settings-nav .icon-wrapper{
+      width:30px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      flex:0 0 30px;
+    }
+
+    /* default = grey */
+    .settings-nav .icon-wrapper img{
+      width:22px;
+      height:22px;
+      object-fit:contain;
+      display:block;
+      filter: grayscale(1) brightness(0.85) contrast(1.05);
+      transition: filter .18s ease, transform .18s ease;
+    }
+
+    /* active = orange */
+    .settings-nav .nav-item.active .icon-wrapper img{
+      filter: brightness(0) saturate(100%)
+              invert(62%) sepia(82%) saturate(1620%)
+              hue-rotate(2deg) brightness(103%) contrast(103%);
+      transform: translateY(-1px);
+    }
+
+    .vertical-divider{
+      width:1px;
+      margin:50px 0;
+      background:var(--text-dark);
+      opacity:.3;
+    }
+
+    .settings-content{
+      flex:1;
+      min-width:0;
+      padding:40px 50px;
+    }
+
+    .content-header h2{
+      margin:0;
+      font-size:32px;
+      font-weight:600;
+      color:var(--text-dark);
+    }
+    .subtitle{
+      margin-top:4px;
+      margin-bottom:16px;
+      font-size:14px;
+      color:#888;
+      line-height:1.4;
+    }
+    .header-line{
+      width:100%;
+      height:1px;
+      background:#ddd;
+      margin-top:8px;
+      margin-bottom:24px;
+    }
+
+    /* =========================
+       SECURITY GRID
+    ========================= */
+    .content-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+      gap:40px;
+      align-items:start;
+    }
+    .password-section,
+    .session-section{ min-width:0; }
+
+    .password-section h3,
+    .session-section h3{
+      margin:0 0 16px 0;
+      font-size:18px;
+      font-weight:600;
+      color:#555;
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+    .form-group{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .form-group label{
+      font-size:14px;
+      color:var(--text-light);
+    }
+    .form-input{
+      height:46px;
+      width:100%;
+      padding:0 15px;
+      font-size:16px;
+      color:#333;
+      border:1px solid #9b9b9b;
+      border-radius:10px;
+      background:#fff;
+      outline:none;
+    }
+    .form-input:focus{
+      border-color:var(--primary-orange);
+      box-shadow:0 0 0 3px rgba(249,152,13,.18);
+    }
+
+    .btn-outline{
+      margin-top:8px;
+      padding:10px 26px;
+      border-radius:999px;
+      border:1px solid var(--primary-orange);
+      font-size:14px;
+      font-weight:600;
+      background:#fff7ea;
+      color:var(--primary-orange);
+      cursor:pointer;
+      transition: background .15s ease, transform .15s ease;
+    }
+    .btn-outline:hover{
+      background:#ffe2b8;
+      transform: translateY(-1px);
+    }
+
+    .pwd-msg{ margin-top:10px; font-size:13px; display:none; }
+    .pwd-msg.ok{ color:#2e7d32; display:block; }
+    .pwd-msg.err{ color:#b00020; display:block; }
+
+    /* =========================
+       ACTIVE SESSION CARD
+    ========================= */
+    .session-section{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .device-card{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px;
+      border-radius:12px;
+      background:#fff;
+      border:1px solid #eee;
+      box-shadow: var(--shadow);
+      width:100%;
+      gap:16px;
+      overflow:hidden;
+    }
+
+    .device-info-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+      flex:1;
+    }
+
+    .device-details{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .device-name-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .device-name,
+    .browser-name{
+      font-size:16px;
+      font-weight:500;
+      color:#5a5a5a;
+      line-height:1.2;
+      white-space:nowrap;
+    }
+
+    .location-text{
+      font-size:13px;
+      color:#8d8d8d;
+      line-height:1.2;
+    }
+
+    .device-status{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+    }
+
+    .status-text.active{
+      color:#28a745;
+      font-weight:600;
+      font-size:14px;
+    }
+    .status-text.logout{
+      color:#d71f40;
+      font-weight:600;
+      font-size:14px;
+      cursor:pointer;
+    }
+    .status-text.logout:hover{ text-decoration:underline; }
+
+    .btn-full-width{
+      width:100%;
+      text-align:center;
+      padding:12px 18px;
+    }
+
+    /* icon cards */
+    .session-section img{ max-width:none !important; }
+
+    .session-section .device-icon-img{
+      width:40px !important;
+      height:40px !important;
+      flex:0 0 40px !important;
+      background:#fff3e4;
+      border-radius:10px;
+      padding:6px;
+      object-fit:contain !important;
+      display:block !important;
+      opacity:1 !important;
+    }
+
+    .session-section .dot-separator-img{
+      width:14px !important;
+      height:14px !important;
+      flex:0 0 14px !important;
+      object-fit:contain !important;
+      display:inline-block !important;
+      opacity:.85 !important;
+    }
+
+    .session-section .status-dot-img{
+      width:12px !important;
+      height:12px !important;
+      flex:0 0 12px !important;
+      object-fit:contain !important;
+      display:inline-block !important;
+      opacity:.95 !important;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+    @media (max-width:1200px){
+      .settings-card{ flex-direction:column; }
+      .settings-nav{
+        width:100%;
+        flex-direction:row;
+        padding:24px;
+        gap:26px;
+        overflow-x:auto;
+        border-bottom:1px solid #eee;
+        flex:0 0 auto;
+      }
+      .vertical-divider{ display:none; }
+      .settings-content{ padding:30px; }
+    }
+
+    @media (max-width:1024px){
+      .content-grid{ grid-template-columns:1fr; }
+    }
+
+    @media (max-width:768px){
+      .top-bar{ height:80px; padding:0 20px; }
+      .top-bar .search-bar{ width:180px; max-width:180px; }
+      .user-info{ display:none; }
+
+      .main-content{ padding:20px; }
+      .settings-nav .nav-item span{ display:none; }
+
+      .session-section .device-icon-img{
+        width:36px !important;
+        height:36px !important;
+        flex:0 0 36px !important;
+        padding:5px;
+      }
+      .session-section .dot-separator-img{
+        width:12px !important;
+        height:12px !important;
+        flex:0 0 12px !important;
+      }
+      .session-section .status-dot-img{
+        width:10px !important;
+        height:10px !important;
+        flex:0 0 10px !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-layout">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/security/logo.png" alt="Logo" />
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="dashboard.html" class="sidebar-link">
+              <img src="assets/108_303.svg" alt="Dashboard" />
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="contract.html" class="sidebar-link">
+              <img src="assets/108_308.svg" alt="Contracts" />
+              <span class="nav-label">Contract</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="approval.html" class="sidebar-link">
+              <img src="assets/108_318.svg" alt="Approval" />
+              <span class="nav-label">Approval</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="settings.html" class="sidebar-link active">
+              <img src="assets/108_355.svg" alt="Settings" />
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ============ AREA KANAN ============ -->
+    <div class="main-container">
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <div class="search-bar">
+          <input id="searchInput" type="text" placeholder="Search" />
+          <img src="assets/108_336.svg" alt="Search" />
+        </div>
+
+        <div class="user-actions">
+          <!-- Notification -->
+          <button class="notification-btn" type="button" id="notificationBtn" aria-label="Notifications">
+            <img src="assets/108_373.svg" alt="Notifications" />
+            <span class="notification-dot"></span>
+          </button>
+
+          <div class="notification-dropdown" id="notificationDropdown">
+            <div class="dropdown-header">Notifications</div>
+            <div class="dropdown-item">1 kontrak baru menunggu approval kamu.</div>
+            <div class="dropdown-item">Perubahan jadwal meeting approval hari ini.</div>
+            <div class="dropdown-footer">Lihat semua notifikasi</div>
+          </div>
+
+          <div class="separator"></div>
+
+          <!-- Profile -->
+          <div class="user-profile" id="userProfile">
+            <img src="assets/108_365.svg" alt="Profile Avatar" />
+            <div class="user-info">
+              <span class="user-name">Nama</span>
+              <span class="user-role">Jabatan</span>
+            </div>
+          </div>
+
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="dropdown-item">Lihat Profil</div>
+            <div class="dropdown-item">Pengaturan Akun</div>
+            <div class="dropdown-footer" id="btnLogoutTop">Logout</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============ KONTEN UTAMA ============ -->
+      <main class="main-content">
+        <!-- HEADER PUTIH -->
+        <section class="dashboard-header">
+          <div class="header-white">
+            <div class="page-header">
+              <h1 class="page-title">Settings</h1>
+            </div>
+          </div>
+        </section>
+
+        <!-- KOTAK PUTIH BESAR -->
+        <section class="settings-card-wrapper">
+          <section class="settings-card">
+            <!-- NAV KIRI -->
+            <aside class="settings-nav">
+              <a href="settings.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/security/information.png" alt="Info" />
+                </div>
+                <span>Personal Information</span>
+              </a>
+
+              <a href="settings-security.html" class="nav-item active">
+                <div class="icon-wrapper">
+                  <img src="assets/security/security.png" alt="Security" />
+                </div>
+                <span>Security</span>
+              </a>
+
+              <a href="settings-notifications.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/165_330.svg" alt="Notifications" />
+                </div>
+                <span>Notifications</span>
+              </a>
+
+              <a href="settings-appearance.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/settings/appearance.png" alt="Appearance" />
+                </div>
+                <span>Appearance</span>
+              </a>
+            </aside>
+
+            <div class="vertical-divider"></div>
+
+            <!-- KONTEN KANAN: SECURITY -->
+            <section class="settings-content">
+              <div class="content-header">
+                <h2>Security</h2>
+                <p class="subtitle">
+                  We may still send you important notification about your account
+                </p>
+                <div class="header-line"></div>
+              </div>
+
+              <div class="content-grid">
+                <!-- Change Password -->
+                <div class="password-section">
+                  <h3>Change Password</h3>
+
+                  <form id="passwordForm" autocomplete="off">
+                    <div class="form-group">
+                      <label for="currentPassword">Current Password</label>
+                      <input id="currentPassword" type="password" class="form-input" required />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="newPassword">New Password</label>
+                      <input id="newPassword" type="password" class="form-input" required />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="confirmPassword">Confirm New Password</label>
+                      <input id="confirmPassword" type="password" class="form-input" required />
+                    </div>
+
+                    <button type="submit" class="btn-outline">Save Changes</button>
+                    <div id="pwdMsg" class="pwd-msg"></div>
+                  </form>
+                </div>
+
+                <!-- Active Session -->
+                <div class="session-section">
+                  <h3>Active Session</h3>
+
+                  <!-- CARD 1 (Laptop) -->
+                  <div class="device-card" id="deviceDesktop">
+                    <div class="device-info-left">
+                      <img class="device-icon-img"
+                           src="assets/settings/Laptop.png"
+                           alt="Laptop" />
+
+                      <div class="device-details">
+                        <div class="device-name-row">
+                          <span class="device-name" id="deskDevice">Windows PC</span>
+                          <img class="dot-separator-img"
+                               src="assets/settings/dot1.png"
+                               alt="dot" />
+                          <span class="browser-name" id="deskBrowser">Chrome</span>
+                        </div>
+                        <span class="location-text" id="deskLocation">Surabaya, Indonesia</span>
+                      </div>
+                    </div>
+
+                    <div class="device-status">
+                      <img class="status-dot-img"
+                           src="assets/settings/dot2.png"
+                           alt="dot" />
+                      <span class="status-text active" id="deskStatus">Active now</span>
+                    </div>
+                  </div>
+
+                  <!-- CARD 2 (Phone) -->
+                  <div class="device-card" id="deviceMobile">
+                    <div class="device-info-left">
+                      <img class="device-icon-img"
+                           src="assets/settings/handphone.png"
+                           alt="Phone" />
+
+                      <div class="device-details">
+                        <div class="device-name-row">
+                          <span class="device-name" id="mobDevice">Galaxy A52</span>
+                          <img class="dot-separator-img"
+                               src="assets/settings/dot1.png"
+                               alt="dot" />
+                          <span class="browser-name" id="mobBrowser">Chrome</span>
+                        </div>
+                        <span class="location-text" id="mobLocation">Surabaya, Indonesia</span>
+                      </div>
+                    </div>
+
+                    <div class="device-status">
+                      <span class="status-text logout" id="mobLogout">[ Log Out ]</span>
+                    </div>
+                  </div>
+
+                  <button type="button" class="btn-outline btn-full-width" id="logoutAllBtn">
+                    [ Log Out All Devices ]
+                  </button>
+                </div>
+              </div>
+            </section>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // USER STORAGE (shared across pages)
+    // =========================
+    function getSessionUser() {
+      try {
+        const s = sessionStorage.getItem("user");
+        if (s) return JSON.parse(s);
+      } catch (e) {}
+      try {
+        const l = localStorage.getItem("user");
+        if (l) return JSON.parse(l);
+      } catch (e) {}
+      return null;
+    }
+
+    function saveUser(user) {
+      try { sessionStorage.setItem("user", JSON.stringify(user)); } catch (e) {}
+      try { localStorage.setItem("user", JSON.stringify(user)); } catch (e) {}
+    }
+
+    function requireLogin(){
+      const u = getSessionUser();
+      if (!u) {
+        window.location.href = "signin.html";
+        return null;
+      }
+      return u;
+    }
+
+    // =========================
+    // DROPDOWNS (notif & profile)
+    // =========================
+    (function () {
+      const notifBtn = document.getElementById("notificationBtn");
+      const notifDropdown = document.getElementById("notificationDropdown");
+      const profile = document.getElementById("userProfile");
+      const profileDropdown = document.getElementById("profileDropdown");
+
+      if (notifBtn && notifDropdown) {
+        notifBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          notifDropdown.classList.toggle("dropdown-show");
+          profileDropdown && profileDropdown.classList.remove("dropdown-show");
+        });
+      }
+
+      if (profile && profileDropdown) {
+        profile.addEventListener("click", function (e) {
+          e.stopPropagation();
+          profileDropdown.classList.toggle("dropdown-show");
+          notifDropdown && notifDropdown.classList.remove("dropdown-show");
+        });
+      }
+
+      document.addEventListener("click", function () {
+        notifDropdown && notifDropdown.classList.remove("dropdown-show");
+        profileDropdown && profileDropdown.classList.remove("dropdown-show");
+      });
+    })();
+
+    // =========================
+    // SEARCH demo
+    // =========================
+    (function () {
+      const searchInput = document.getElementById("searchInput");
+      if (!searchInput) return;
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const value = searchInput.value.trim();
+          if (value) alert('Pencarian: "' + value + '" (demo search)');
+        }
+      });
+    })();
+
+    // =========================
+    // TOP BAR user UI (Nama/Jabatan)
+    // =========================
+    (function(){
+      const user = requireLogin();
+      if (!user) return;
+
+      const topName = document.querySelector(".top-bar .user-name");
+      const topRole = document.querySelector(".top-bar .user-role");
+      if (topName) topName.textContent = user.full_name || user.name || "Nama";
+      if (topRole) topRole.textContent = user.role || "User";
+    })();
+
+    // =========================
+    // CHANGE PASSWORD (storage demo)
+    // =========================
+    (function () {
+      const user = requireLogin();
+      if (!user) return;
+
+      const form = document.getElementById("passwordForm");
+      const msg  = document.getElementById("pwdMsg");
+      if (!form || !msg) return;
+
+      function show(text, ok){
+        msg.className = "pwd-msg " + (ok ? "ok" : "err");
+        msg.textContent = text;
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const current = document.getElementById("currentPassword").value.trim();
+        const next    = document.getElementById("newPassword").value.trim();
+        const confirm = document.getElementById("confirmPassword").value.trim();
+
+        if (!current || !next || !confirm) {
+          show("Semua kolom password harus diisi.", false);
+          return;
+        }
+
+        const storedPwd = (user.password || "").toString();
+        if (storedPwd && current !== storedPwd) {
+          show("Current Password salah.", false);
+          return;
+        }
+
+        if (next.length < 8) {
+          show("Password baru minimal 8 karakter.", false);
+          return;
+        }
+
+        if (next !== confirm) {
+          show("Konfirmasi password tidak sama dengan password baru.", false);
+          return;
+        }
+
+        user.password = next;
+        saveUser(user);
+
+        show("Password berhasil diganti. Gunakan password baru saat Sign In.", true);
+
+        document.getElementById("newPassword").value = "";
+        document.getElementById("confirmPassword").value = "";
+      });
+    })();
+
+    // =========================
+    // ACTIVE SESSION (demo)
+    // =========================
+    (function(){
+      const desktopStatus = document.getElementById("deskStatus");
+      const mobileLogout  = document.getElementById("mobLogout");
+
+      function isMobile(){
+        const ua = (navigator.userAgent || "").toLowerCase();
+        return /android|iphone|ipad|ipod|windows phone|mobile/i.test(ua);
+      }
+
+      if (isMobile()) {
+        if (desktopStatus) {
+          desktopStatus.textContent = "[ Logged out ]";
+          desktopStatus.classList.remove("active");
+          desktopStatus.classList.add("logout");
+          desktopStatus.style.color = "#888";
+          desktopStatus.style.fontWeight = "600";
+        }
+        if (mobileLogout) {
+          mobileLogout.textContent = "Active now";
+          mobileLogout.classList.remove("logout");
+          mobileLogout.classList.add("active");
+          mobileLogout.style.color = "#28a745";
+          mobileLogout.style.cursor = "default";
+          mobileLogout.style.textDecoration = "none";
+        }
+      }
+
+      if (mobileLogout) {
+        mobileLogout.addEventListener("click", function(){
+          if (mobileLogout.classList.contains("active")) return;
+          mobileLogout.textContent = "[ Logged out ]";
+          mobileLogout.style.color = "#888";
+          mobileLogout.style.cursor = "default";
+        });
+      }
+    })();
+
+    // =========================
+    // LOGOUT buttons
+    // =========================
+    (function(){
+      const btnLogoutAll = document.getElementById("logoutAllBtn");
+      const btnLogoutTop = document.getElementById("btnLogoutTop");
+
+      function doLogout(){
+        try { sessionStorage.removeItem("user"); } catch(e){}
+        window.location.href = "signin.html";
+      }
+
+      if (btnLogoutAll) {
+        btnLogoutAll.addEventListener("click", () => {
+          if (!confirm("Log out dari semua device?")) return;
+          doLogout();
+        });
+      }
+
+      if (btnLogoutTop) {
+        btnLogoutTop.addEventListener("click", () => {
+          if (!confirm("Logout?")) return;
+          doLogout();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

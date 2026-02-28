@@ -1,0 +1,501 @@
+:root{
+  --primary-orange:#f9980d;
+  --text-dark:#636363;
+  --text-light:#8f8f8f;
+  --bg-light:#f5f5f5;
+  --white:#ffffff;
+  --border-color:#e0e0e0;
+}
+
+/* =========================
+   GLOBAL RESET
+========================= */
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; width:100%; min-height:100vh; }
+body{
+  font-family:"Lato","Inter",sans-serif;
+  background:var(--bg-light);
+  color:var(--text-dark);
+}
+img{ display:block; max-width:100%; }
+button{ font-family:inherit; cursor:pointer; border:none; background:none; }
+a{ text-decoration:none; color:inherit; }
+
+/* =========================
+   LAYOUT UTAMA (mengikuti HTML: .dashboard-layout > sidebar + .main-container)
+========================= */
+.dashboard-layout{
+  width:100%;
+  max-width:100%;
+  margin:0;
+  display:flex;
+  min-height:100vh;
+}
+
+/* .main-container itu area kanan */
+.main-container{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+
+/* =========================
+   TOP BAR (sesuai HTML kamu: .top-bar, .search-bar, .user-actions)
+========================= */
+.top-bar{
+  width:100%;
+  height:122px;
+  padding:0 40px;
+  background:var(--white);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 4px 8px rgba(0,0,0,.05);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+/* Search: ikut gaya Approval */
+.top-bar .search-bar{
+  display:flex;
+  align-items:center;
+  width:260px;
+  max-width:260px;
+  gap:8px;
+}
+.top-bar .search-bar input{
+  width:100%;
+  border:none;
+  border-bottom:1px solid #000;
+  background:transparent;
+  padding:4px 0;
+  font-size:16px;
+  color:#000;
+  outline:none;
+}
+.top-bar .search-bar img{
+  width:20px;
+  height:20px;
+}
+
+/* User actions (notif + separator + profile) */
+.user-actions{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  position:relative;
+}
+.separator{
+  width:1px;
+  height:40px;
+  background:#000;
+  opacity:.9;
+}
+
+/* Notification */
+.notification-btn{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+.notification-btn img{ width:28px; height:28px; }
+.notification-dot{
+  position:absolute;
+  top:2px;
+  right:2px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#ff4d4f;
+}
+
+/* Profile */
+.user-profile{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+}
+.user-profile img{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  object-fit:cover;
+}
+.user-info{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
+}
+.user-name{
+  font-weight:700;
+  font-size:16px;
+  color:#000;
+}
+.user-role{
+  font-size:14px;
+  color:#000;
+}
+
+/* Dropdown (notif & profile) */
+.notification-dropdown,
+.profile-dropdown{
+  position:absolute;
+  top:52px;
+  right:0;
+  min-width:240px;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,.12);
+  padding:10px 0;
+  display:none;
+  z-index:50;
+}
+.notification-dropdown{ right:84px; } /* biar tidak ketiban profile */
+.dropdown-show{ display:block; }
+
+.dropdown-header{
+  padding:6px 16px;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color:#999;
+}
+.dropdown-item{
+  padding:10px 16px;
+  font-size:13px;
+  color:#333;
+  cursor:pointer;
+  white-space:normal;
+}
+.dropdown-item:hover{ background:#f5f5f5; }
+.dropdown-footer{
+  padding:10px 16px;
+  font-size:12px;
+  color:#ff7a00;
+  cursor:pointer;
+  border-top:1px solid #f1f1f1;
+}
+.dropdown-footer:hover{ background:#fff7ed; }
+
+/* =========================
+   MAIN CONTENT AREA (sesuai HTML: <main class="main-content">)
+========================= */
+.main-content{
+  background:#f0f0f0;
+  padding:24px 24px 40px;
+  box-sizing:border-box;
+  width:100%;
+}
+
+/* Header putih (judul Settings) */
+.dashboard-header{ margin-bottom:24px; }
+.header-white{
+  background:#fff;
+  border-radius:0;
+  padding:24px 24px 18px;
+  border-bottom:1px solid #e4e4e4;
+  box-shadow:none;
+}
+.page-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.page-title{
+  margin:0;
+  font-size:32px;
+  font-weight:600;
+  color:#4f4f4f;
+  letter-spacing:.2px;
+}
+
+/* Wrapper agar konten tidak “center kecil” */
+.header-white,
+.settings-card-wrapper{
+  max-width:2000px;
+  margin:0 auto;
+}
+.settings-card-wrapper{ margin-top:16px; }
+
+/* =========================
+   SETTINGS CARD
+========================= */
+.settings-card{
+  width:100%;
+  max-width:100%;
+  margin:0;
+  min-height:520px;
+  display:flex;
+  background:#fff;
+  border-radius:0;
+  box-shadow:0 1px 2px rgba(0,0,0,.10);
+  box-sizing:border-box;
+}
+
+/* NAV kiri (Settings) */
+.settings-nav{
+  width:336px;
+  padding:50px 0 0 55px;
+  display:flex;
+  flex-direction:column;
+  gap:19px;
+  flex:0 0 336px;
+}
+.settings-nav .nav-item{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  font-size:18px;
+  font-weight:500;
+  color:var(--text-dark);
+}
+.settings-nav .nav-item.active{ color:var(--primary-orange); }
+.settings-nav .icon-wrapper{
+  width:30px;
+  display:flex;
+  justify-content:center;
+}
+.settings-nav .icon-wrapper img{
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  opacity:.95;
+}
+
+/* Divider vertical */
+.vertical-divider{
+  width:1px;
+  margin:50px 0;
+  background:var(--text-dark);
+  opacity:.3;
+}
+
+/* KONTEN kanan */
+.settings-content{
+  flex:1;
+  min-width:0;
+  padding:40px 50px;
+}
+
+/* Header konten kanan */
+.content-header h2{
+  margin:0;
+  font-size:32px;
+  font-weight:600;
+  color:var(--text-dark);
+}
+.subtitle{
+  margin-top:4px;
+  margin-bottom:16px;
+  font-size:14px;
+  color:#888;
+  line-height:1.4;
+}
+.header-line{
+  width:100%;
+  height:1px;
+  background:#ddd;
+  margin-top:8px;
+  margin-bottom:24px;
+}
+
+/* =========================
+   FORM INPUT (dipakai security)
+========================= */
+.form-group{ display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+.form-group label{ font-size:14px; color:var(--text-light); }
+.form-input{
+  height:46px;
+  width:100%;
+  padding:0 15px;
+  font-size:16px;
+  color:#333;
+  border:1px solid #9b9b9b;
+  border-radius:10px;
+  background:#fff;
+  outline:none;
+}
+.form-input:focus{
+  border-color:var(--primary-orange);
+  box-shadow:0 0 0 3px rgba(249,152,13,.18);
+}
+
+.btn-outline{
+  margin-top:8px;
+  padding:10px 26px;
+  border-radius:50px;
+  border:1px solid var(--primary-orange);
+  font-size:14px;
+  font-weight:600;
+  background:#fff7ea;
+  color:var(--primary-orange);
+  cursor:pointer;
+}
+.btn-outline:hover{ background:#ffe2b8; }
+
+.pwd-msg{
+  margin-top:10px;
+  font-size:13px;
+  display:none;
+}
+.pwd-msg.ok{ color:#2e7d32; display:block; }
+.pwd-msg.err{ color:#b00020; display:block; }
+
+/* =========================
+   SECURITY GRID
+========================= */
+.content-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+  gap:40px;
+  align-items:start;
+}
+.password-section,
+.session-section{ min-width:0; }
+
+.password-section h3,
+.session-section h3{
+  margin:0 0 16px 0;
+  font-size:18px;
+  font-weight:600;
+  color:#555;
+}
+
+/* =========================
+   ACTIVE SESSION CARD (icon laptop/phone/dot)
+========================= */
+.session-section{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.device-card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px;
+  border-radius:12px;
+  background:#fff;
+  border:1px solid #eee;
+  box-shadow:0 8px 18px rgba(0,0,0,.06);
+  width:100%;
+  gap:16px;
+}
+
+.device-info-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+  flex:1;
+}
+
+.device-icon-img{
+  width:36px;
+  height:36px;
+  flex:0 0 36px;
+  object-fit:contain;
+}
+
+.device-details{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.device-name-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.device-name,
+.browser-name{
+  font-size:16px;
+  font-weight:500;
+  color:#5a5a5a;
+  line-height:1.2;
+  white-space:nowrap;
+}
+
+.dot-separator-img,
+.status-dot-img{
+  width:16px;
+  height:16px;
+  object-fit:contain;
+  opacity:.75;
+}
+
+.location-text{
+  font-size:13px;
+  color:#8d8d8d;
+  line-height:1.2;
+}
+
+.device-status{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  white-space:nowrap;
+}
+
+.status-text.active{
+  color:#28a745;
+  font-weight:600;
+  font-size:14px;
+}
+
+.status-text.logout{
+  color:#d71f40;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+}
+.status-text.logout:hover{ text-decoration:underline; }
+
+.btn-full-width{
+  width:100%;
+  text-align:center;
+  padding:12px 18px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width:1200px){
+  .settings-card{ flex-direction:column; }
+  .settings-nav{
+    width:100%;
+    flex-direction:row;
+    padding:24px;
+    gap:26px;
+    overflow-x:auto;
+    border-bottom:1px solid #eee;
+    flex:0 0 auto;
+  }
+  .vertical-divider{ display:none; }
+  .settings-content{ padding:30px; }
+}
+
+@media (max-width:1024px){
+  .content-grid{ grid-template-columns:1fr; }
+}
+
+@media (max-width:768px){
+  .top-bar{
+    height:80px;
+    padding:0 20px;
+  }
+  .top-bar .search-bar{ width:180px; max-width:180px; }
+  .user-info{ display:none; }
+  .main-content{ padding:20px; }
+  .settings-nav .nav-item span{ display:none; }
+}

@@ -1,0 +1,728 @@
+/* =========================================
+   DASHBOARD – GLOBAL VARIABLE & RESET
+========================================= */
+:root {
+  --dash-primary: #f99b1c;
+  --dash-blue: #60b5ff;
+  --dash-blue-light: #afddff;
+  --dash-orange-light: #ffecdb;
+  --dash-text-dark: #393939;
+  --dash-text: #636363;
+  --dash-text-light: #8d8d8d;
+  --dash-bg-page: #f5f5f5;
+  --dash-bg-white: #ffffff;
+  --dash-bg-sidebar: #5f5f5f;
+  --dash-border: #bebebe;
+}
+
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+  background-color: var(--dash-bg-page);
+  color: var(--dash-text);
+}
+
+.dashboard-layout h1,
+.dashboard-layout h2,
+.dashboard-layout h3,
+.dashboard-layout p {
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================================
+   LAYOUT UTAMA
+========================================= */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* =========================================
+   SIDEBAR – ICON + LABEL HOVER
+========================================= */
+.sidebar {
+  width: 80px; /* default: hanya ikon */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: var(--dash-bg-sidebar);
+  box-shadow: 4px 0 9px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 10;
+  transition: width 0.25s ease;
+}
+
+/* saat sidebar di-hover: melebar & teks muncul */
+.sidebar:hover {
+  width: 260px;
+}
+
+/* logo kotak abu di atas */
+.sidebar-logo {
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.sidebar-logo::before {
+  content: "";
+  position: absolute;
+  inset: 0px 0px 0px 0px;
+  background-color: #8d8d8d;
+  z-index: -1;
+}
+
+.sidebar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* nav list */
+.sidebar-nav {
+  margin-top: 40px;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+/* link di sidebar */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar-link img {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+}
+
+/* label text – disembunyikan dulu */
+.nav-label {
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 0;
+  opacity: 0;
+  transition:
+    max-width 0.25s ease,
+    opacity 0.2s ease;
+}
+
+/* ketika sidebar melebar, label muncul */
+.sidebar:hover .nav-label {
+  max-width: 100px;
+  opacity: 1;
+}
+
+/* state aktif dari JS (.is-active) hanya efek kecil */
+.sidebar-link.is-active img {
+  filter: brightness(1.2);
+}
+
+/* =========================================
+   MAIN CONTAINER + TOP BAR
+========================================= */
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--dash-bg-page);
+}
+
+/* top bar atas putih */
+.top-bar {
+  height: 65px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 70px;
+  padding: 0 60px;
+  background-color: var(--dash-bg-white);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.15);
+}
+
+/* search */
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 260px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #000;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 250;
+  color: #000;
+}
+
+.search-bar img {
+  width: 18x;
+  height: 18px;
+}
+
+/* notif + profile kanan */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.notification-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.notification-btn img {
+  width: 25px;
+  height: 25px;
+}
+
+.separator {
+  width: 1px;
+  height: 40px;
+  background-color: #000;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-profile img {
+  width: 30px;
+  height: 30px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #000;
+}
+
+.user-role {
+  font-size: 10px;
+  font-weight: 300;
+  color: #000;
+}
+
+/* =========================================
+   MAIN CONTENT WRAPPER
+========================================= */
+.main-content {
+  flex: 1;
+  max-width: 1787px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 5px 40px 40px;
+}
+
+/* =========================================
+   HEADER "DASHBOARD"
+========================================= */
+.dashboard-header {
+  padding-top: 12px;      /* kecilkan jarak atas */
+  padding-bottom: 12px;   /* kecilkan jarak bawah */
+  padding-left: 24px;
+  padding-right: 24px;;
+  background-color: var(--dash-bg-white);
+}
+
+.dashboard-header h1 {
+  font-size: 32px;         /* dari besar → lebih ramping */
+  line-height: 1.2;
+  margin-bottom: 4px;    
+  color: var(--dash-text);
+}
+
+.dashboard-header p {
+  font-size: 10px;
+  margin: 0;
+  color: #8d8d8d;;
+  color: var(--dash-text);
+}
+
+/* =========================================
+   STATUS CARDS (4 BOX ATAS)
+========================================= */
+.status-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;                 /* dari 40px → lebih rapat */
+  margin-bottom: 20px;
+}
+
+.status-card {
+  padding: 16px 20px;        /* dari 26px 32px → diperkecil */
+  border-radius: 14px;
+  color: var(--dash-text-dark);
+  box-shadow: 0 8px 18px rgba(141, 141, 141, 0.5);
+  min-height: 95px;          /* PENTING: bikin card pendek & memanjang */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* WARNA CARD (TETAP) */
+.status-card.active-contracts {
+  background-color: var(--dash-blue);
+}
+
+.status-card.pending-approval {
+  background-color: var(--dash-blue-light);
+}
+
+.status-card.expiring-soon {
+  background-color: var(--dash-orange-light);
+}
+
+.status-card.in-progress {
+  background-color: var(--dash-primary);
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.card-title img {
+  width: 25px;
+  height: 25px;
+}
+
+.card-title h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.card-count {
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* =========================================
+   KONTEN BAWAH – KIRI & KANAN
+========================================= */
+.content-columns {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr; /* kiri lebih besar, kanan untuk chart */
+  gap: 24px;
+  align-items: start;
+}
+
+/* ---------- Activity & Reminder (kiri) ---------- */
+.activity-section {
+  flex: 1;
+  padding: 18px 20px;                 /* lebih lega tapi tetap ringkas */
+  border-radius: 14px;
+  background-color: var(--dash-bg-white);
+}
+
+/* header */
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;                 /* dari 26px -> lebih rapat */
+}
+
+.activity-header h2 {
+  font-size: 20px;                     /* dari 28px -> seperti figma */
+  font-weight: 600;
+}
+
+/* controls kanan */
+.activity-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;                           /* dari 16px -> rapat */
+}
+
+.add-contract-btn,
+.status-dropdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;                   /* kecilkan tombol */
+  font-size: 12px;                     /* dari 16px */
+  border-radius: 18px;
+  border: 1px solid var(--dash-border);
+  background-color: var(--dash-bg-white);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.add-contract-btn img,
+.status-dropdown img {
+  width: 14px;                         /* dari 18px */
+  height: 14px;
+}
+
+.sort-by {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;                     /* dari 16px */
+  color: var(--dash-text-light);
+}
+
+/* list */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;                           /* dari 24px -> rapat */
+}
+
+/* item */
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 12px;                /* dari 20px -> rapat */
+  border-bottom: 1px solid #000;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.activity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+/* priority */
+.priority-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priority-wrapper img{
+  width: 8px;
+  height: 8px;
+}
+
+.priority {
+  font-size: 11px;                     /* dari 14px */
+  font-weight: 400;
+  color: var(--dash-text-light);
+}
+
+.priority span {
+  font-weight: 600;
+}
+
+/* title + desc */
+.activity-item h3 {
+  margin-top: 2px;
+  font-size: 14px;                     /* dari 20px */
+  font-weight: 600;
+  color: var(--dash-text-dark);
+}
+
+.description {
+  margin-top: 2px;
+  max-width: 520px;                    /* dari 640px -> lebih pas */
+  font-size: 12px;                     /* dari 14px */
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--dash-text);
+}
+
+/* status tag kanan */
+.status-tag {
+  margin-top: 8px;                     /* dari 18px -> naik supaya sejajar */
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 12px;                     /* dari 14px */
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--dash-text);
+}
+
+/* warna tag */
+.tag-pending {
+  background-color: var(--dash-blue-light);
+}
+
+.tag-expiring {
+  background-color: var(--dash-orange-light);
+}
+
+.tag-progress {
+  background-color: var(--dash-primary);
+}
+
+
+/* ---------- Right sidebar: chart + notifications ---------- */
+.right-sidebar {
+  width: 380px;            /* dari 420px → lebih ramping */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;               /* dari 32px → lebih rapat */
+}
+
+/* chart card */
+.chart-card {
+  padding: 16px 16px;      /* dari 20px → lebih kecil */
+  border-radius: 8px;
+  background-color: var(--dash-bg-white);
+}
+
+/* judul chart */
+.chart-card h2 {
+  margin-bottom: 16px;     /* dari 24px */
+  font-size: 16px;         /* dari 22px → SESUAI FIGMA */
+  font-weight: 600;
+}
+
+/* isi chart */
+.chart-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;               /* dari 32px */
+}
+
+/* pie chart */
+.pie-chart {
+  width: 150px;            /* dari 190px */
+  height: 150px;
+}
+
+/* legend */
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;         /* dari 14px */
+}
+
+.chart-legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =========================
+   NOTIFICATIONS (DIPERKECIL)
+========================= */
+.notifications-card {
+  padding: 0;
+}
+
+/* header notifications */
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;           /* dari baseline → lebih rapi */
+  padding-bottom: 8px;           /* dari 10px */
+  margin-bottom: 8px;            /* dari 10px */
+  border-bottom: 1px solid #000;
+}
+
+.notifications-header h2 {
+  font-size: 15px;               /* dari 22px → SESUAI FIGMA */
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.see-all-link {
+  font-size: 12px;               /* dari 13px */
+  font-weight: 600;
+  color: var(--dash-primary);
+}
+
+/* list container */
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;                     /* dari 14px */
+  padding: 10px 14px;            /* dari 12px 16px */
+  border-radius: 8px;
+  border: 0.5px solid var(--dash-text);
+  background-color: var(--dash-bg-page);
+}
+
+/* item */
+.notification-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;                      /* dari 6px */
+}
+
+/* icon */
+.notification-list img {
+  margin-top: 3px;
+  width: 8px;                    /* bikin lebih subtle */
+  height: 8px;
+}
+
+/* text */
+.notification-text p {
+  font-size: 12.5px;             /* dari 14px */
+  line-height: 1.35;
+}
+
+.notification-text small {
+  font-size: 11px;               /* dari 10px */
+  font-weight: 400;
+  color: #9a9a9a;
+}
+
+/* warna */
+.notification-text .highlight {
+  color: var(--dash-primary);
+}
+
+.notification-text .text-gray {
+  color: var(--dash-text);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+  .content-columns{
+  display: grid !important;
+  grid-template-columns: 1fr 420px;  /* kiri Activity, kanan sidebar */
+  gap: 24px;
+  align-items: start;
+}
+
+/* sidebar kanan jadi 1 kolom (stack) */
+.right-sidebar{
+  width: 100% !important;            /* ikut kolom grid (420px) */
+  display: flex !important;
+  flex-direction: column !important; /* ini yang bikin atas–bawah */
+  gap: 18px;
+}
+
+/* chart & notifications full lebar kolom kanan */
+.chart-card,
+.notifications-card{
+  width: 100% !important;
+}
+
+/* PENTING: kalau ada style lain yg bikin chart-content 2 kolom aneh */
+.chart-content{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 992px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-end;
+    height: auto;
+    padding: 16px 24px;
+    gap: 16px;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .right-sidebar {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  /* di mobile tidak perlu efek hover melebar */
+  .sidebar:hover {
+    width: 100%;
+  }
+
+  .sidebar-logo::before {
+    display: none;
+  }
+
+  .content-columns {
+    flex-direction: column;
+  }
+
+  .activity-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .status-tag {
+    margin-top: 10px;
+  }
+}
+
+/* =========================================
+   NOTIFICATION BULLET – FIX TITIK HILANG
+========================================= */
+
+/* sembunyikan img bullet lama */
+.notification-list img {
+  display: none;
+}
+
+/* setiap item wajib punya titik */
+.notification-list li {
+  position: relative;
+  padding-left: 16px;        /* ruang bullet */
+}
+
+/* bullet/titik */
+.notification-list li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  position: absolute;
+  left: 0;
+  top: 6px;                  /* sejajar teks */
+}

@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Settings – Notifications – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font Lato & Inter -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS utama + layout -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="settings.css" />
+
+  <!-- CSS khusus NOTIFICATIONS -->
+  <link rel="stylesheet" href="settings-notifications.css" />
+
+  <style>
+    /* =========================
+       OVERRIDE kecil biar konsisten dg Security
+       - icon nav: grey -> orange saat active
+       - hilangkan dot merah notif topbar
+    ========================= */
+
+    /* hilangkan dot merah topbar notif */
+    .notification-dot{ display:none !important; }
+
+    /* pastikan icon notif topbar hitam */
+    .notification-btn img{
+      filter: brightness(0) saturate(100%);
+    }
+
+    /* NAV kiri: default grey, active orange */
+    .settings-nav .nav-item{
+      text-decoration:none;
+      transition: background .15s ease, color .15s ease;
+      border-radius:10px;
+      padding:8px 10px;
+    }
+    .settings-nav .nav-item:hover{ background:#fafafa; }
+
+    .settings-nav .icon-wrapper img{
+      filter: grayscale(1) brightness(.85) contrast(1.05);
+      transition: filter .18s ease, transform .18s ease;
+    }
+    .settings-nav .nav-item.active .icon-wrapper img{
+      filter: brightness(0) saturate(100%)
+              invert(62%) sepia(82%) saturate(1620%)
+              hue-rotate(2deg) brightness(103%) contrast(103%);
+      transform: translateY(-1px);
+    }
+
+    /* rapihin sedikit spacing header kanan (kalau settings.css beda) */
+    .content-header .subtitle{
+      margin-top:4px;
+      margin-bottom:16px;
+      font-size:14px;
+      color:#888;
+      line-height:1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-layout">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/71224c67b67cb014509e326e687a4384fe5b74cc.png" alt="Logo" />
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="dashboard.html" class="sidebar-link">
+              <img src="assets/108_303.svg" alt="Dashboard" />
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="contract.html" class="sidebar-link">
+              <img src="assets/108_308.svg" alt="Contracts" />
+              <span class="nav-label">Contract</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="approval.html" class="sidebar-link">
+              <img src="assets/108_318.svg" alt="Approval" />
+              <span class="nav-label">Approval</span>
+            </a>
+          </li>
+
+          <li>
+            <!-- HALAMAN SETTINGS AKTIF -->
+            <a href="settings.html" class="sidebar-link active">
+              <img src="assets/108_355.svg" alt="Settings" />
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ============ AREA KANAN ============ -->
+    <div class="main-container">
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <div class="search-bar">
+          <input id="searchInput" type="text" placeholder="Search" />
+          <img src="assets/108_336.svg" alt="Search" />
+        </div>
+
+        <div class="user-actions">
+          <!-- Notification -->
+          <button class="notification-btn" type="button" id="notificationBtn" aria-label="Notifications">
+            <img src="assets/108_373.svg" alt="Notifications" />
+            <span class="notification-dot"></span>
+          </button>
+
+          <div class="notification-dropdown" id="notificationDropdown">
+            <div class="dropdown-header">Notifications</div>
+            <div class="dropdown-item">1 kontrak baru menunggu approval kamu.</div>
+            <div class="dropdown-item">Perubahan jadwal meeting approval hari ini.</div>
+            <div class="dropdown-footer">Lihat semua notifikasi</div>
+          </div>
+
+          <div class="separator"></div>
+
+          <!-- Profile -->
+          <div class="user-profile" id="userProfile">
+            <img src="assets/108_365.svg" alt="Profile Avatar" />
+            <div class="user-info">
+              <span class="user-name">Nama</span>
+              <span class="user-role">Jabatan</span>
+            </div>
+          </div>
+
+          <div class="profile-dropdown" id="profileDropdown">
+            <div class="dropdown-item">Lihat Profil</div>
+            <div class="dropdown-item">Pengaturan Akun</div>
+            <div class="dropdown-footer" id="btnLogoutTop">Logout</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============ KONTEN UTAMA ============ -->
+      <main class="main-content">
+        <!-- HEADER PUTIH (judul) -->
+        <section class="dashboard-header">
+          <div class="header-white">
+            <div class="page-header">
+              <h1 class="page-title">Settings</h1>
+            </div>
+          </div>
+        </section>
+
+        <!-- KOTAK PUTIH BESAR -->
+        <section class="settings-card-wrapper">
+          <section class="settings-card">
+            <!-- NAV KIRI -->
+            <aside class="settings-nav">
+              <a href="settings.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/165_345.svg" alt="Info" />
+                </div>
+                <span>Personal Information</span>
+              </a>
+
+              <a href="settings-security.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/222_370.svg" alt="Security" />
+                </div>
+                <span>Security</span>
+              </a>
+
+              <a href="settings-notifications.html" class="nav-item active">
+                <div class="icon-wrapper">
+                  <img src="assets/165_330.svg" alt="Notifications" />
+                </div>
+                <span>Notifications</span>
+              </a>
+
+              <a href="settings-appearance.html" class="nav-item">
+                <div class="icon-wrapper">
+                  <img src="assets/165_340.svg" alt="Appearance" />
+                </div>
+                <span>Appearance</span>
+              </a>
+            </aside>
+
+            <!-- Garis vertikal tipis -->
+            <div class="vertical-divider"></div>
+
+            <!-- KONTEN KANAN: NOTIFICATIONS -->
+            <section class="settings-content">
+              <div class="content-header">
+                <h2>Notifications</h2>
+                <p class="subtitle">
+                  We may still send you important notification about your account
+                </p>
+                <div class="header-line"></div>
+              </div>
+
+              <!-- BLOK NOTIFICATIONS -->
+              <div class="notifications-wrapper">
+                <!-- GENERAL PREFERENCES -->
+                <div class="notif-group">
+                  <div class="notif-group-title">GENERAL PREFERENCES</div>
+
+                  <div class="notif-row">
+                    <div class="notif-text">
+                      <div class="notif-title">Email Notifications</div>
+                      <div class="notif-desc">
+                        Receive daily summaries and critical alerts via email.
+                      </div>
+                    </div>
+                    <label class="toggle">
+                      <input type="checkbox" class="toggle-input" id="notifEmail" checked />
+                      <span class="toggle-track">
+                        <span class="toggle-thumb"></span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <div class="notif-divider"></div>
+
+                  <div class="notif-row">
+                    <div class="notif-text">
+                      <div class="notif-title">Push Notifications</div>
+                      <div class="notif-desc">
+                        Receive real-time pop-ups on your device.
+                      </div>
+                    </div>
+                    <label class="toggle">
+                      <input type="checkbox" class="toggle-input" id="notifPush" />
+                      <span class="toggle-track">
+                        <span class="toggle-thumb"></span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- CONTRACT ACTIVITY -->
+                <div class="notif-group">
+                  <div class="notif-group-title">CONTRACT ACTIVITY</div>
+
+                  <div class="notif-row">
+                    <div class="notif-text">
+                      <div class="notif-title">Signature Requests</div>
+                      <div class="notif-desc">
+                        Notify me when someone requests my signature.
+                      </div>
+                    </div>
+                    <label class="toggle">
+                      <input type="checkbox" class="toggle-input" id="notifSignature" />
+                      <span class="toggle-track">
+                        <span class="toggle-thumb"></span>
+                      </span>
+                    </label>
+                  </div>
+
+                  <div class="notif-divider"></div>
+
+                  <div class="notif-row">
+                    <div class="notif-text">
+                      <div class="notif-title">Review &amp; Approval</div>
+                      <div class="notif-desc">
+                        Notify me when a document needs my approval.
+                      </div>
+                    </div>
+                    <label class="toggle">
+                      <input type="checkbox" class="toggle-input" id="notifReview" checked />
+                      <span class="toggle-track">
+                        <span class="toggle-thumb"></span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- REMINDERS -->
+                <div class="notif-group">
+                  <div class="notif-group-title">REMINDERS</div>
+
+                  <div class="notif-row">
+                    <div class="notif-text">
+                      <div class="notif-title">Expiration Alerts</div>
+                      <div class="notif-desc">
+                        Remind me when a contract&apos;s expiring soon.
+                      </div>
+                    </div>
+                    <label class="toggle">
+                      <input type="checkbox" class="toggle-input" id="notifExpiration" />
+                      <span class="toggle-track">
+                        <span class="toggle-thumb"></span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ============== JS DROPDOWN & DEMO INTERAKSI ============== -->
+  <script>
+    // =========================
+    // USER STORAGE (optional biar konsisten dg page lain)
+    // =========================
+    function getSessionUser() {
+      try { const s = sessionStorage.getItem("user"); if (s) return JSON.parse(s); } catch (e) {}
+      try { const l = localStorage.getItem("user"); if (l) return JSON.parse(l); } catch (e) {}
+      return null;
+    }
+
+    function requireLogin(){
+      const u = getSessionUser();
+      if (!u) { window.location.href = "signin.html"; return null; }
+      return u;
+    }
+
+    // isi nama/jabatan topbar
+    (function(){
+      const user = requireLogin();
+      if (!user) return;
+      const topName = document.querySelector(".top-bar .user-name");
+      const topRole = document.querySelector(".top-bar .user-role");
+      if (topName) topName.textContent = user.full_name || user.name || "Nama";
+      if (topRole) topRole.textContent = user.role || "User";
+    })();
+
+    // NOTIFICATION & PROFILE DROPDOWN
+    (function () {
+      const notifBtn = document.getElementById("notificationBtn");
+      const notifDropdown = document.getElementById("notificationDropdown");
+      const profile = document.getElementById("userProfile");
+      const profileDropdown = document.getElementById("profileDropdown");
+
+      if (notifBtn && notifDropdown) {
+        notifBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          notifDropdown.classList.toggle("dropdown-show");
+          profileDropdown && profileDropdown.classList.remove("dropdown-show");
+        });
+      }
+
+      if (profile && profileDropdown) {
+        profile.addEventListener("click", function (e) {
+          e.stopPropagation();
+          profileDropdown.classList.toggle("dropdown-show");
+          notifDropdown && notifDropdown.classList.remove("dropdown-show");
+        });
+      }
+
+      document.addEventListener("click", function () {
+        notifDropdown && notifDropdown.classList.remove("dropdown-show");
+        profileDropdown && profileDropdown.classList.remove("dropdown-show");
+      });
+    })();
+
+    // SEARCH ENTER (demo)
+    (function () {
+      const searchInput = document.getElementById("searchInput");
+      if (!searchInput) return;
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const value = searchInput.value.trim();
+          if (value) alert('Pencarian: "' + value + '" (demo search)');
+        }
+      });
+    })();
+
+    // LOG toggle saat berubah
+    (function () {
+      const ids = ["notifEmail", "notifPush", "notifSignature", "notifReview", "notifExpiration"];
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener("change", () => console.log(id + ":", el.checked));
+      });
+    })();
+
+    // LOGOUT (biar sama dengan Security)
+    (function(){
+      const btnLogoutTop = document.getElementById("btnLogoutTop");
+      if (!btnLogoutTop) return;
+      btnLogoutTop.addEventListener("click", () => {
+        if (!confirm("Logout?")) return;
+        try { sessionStorage.removeItem("user"); } catch(e){}
+        window.location.href = "signin.html";
+      });
+    })();
+  </script>
+</body>
+</html>

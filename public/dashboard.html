@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Dashboard – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font Lato -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS utama project -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- CSS layout dashboard (sidebar, topbar, dll) -->
+  <link rel="stylesheet" href="dashboard.css" />
+
+  <!-- CSS khusus halaman kontrak (boleh tetap di-include, tidak masalah) -->
+  <link rel="stylesheet" href="contract.css" />
+</head>
+
+<body>
+  <div class="dashboard-layout">
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img
+          src="assets/dashboard/logo.png"
+          alt="Company Logo"
+        />
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <!-- HALAMAN INI AKTIF -->
+            <a href="dashboard.html" class="sidebar-link active">
+              <img src="assets/dashboard/dashboard.png" alt="Dashboard" />
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <!-- BUKA FILE contract.html -->
+            <a href="contract.html" class="sidebar-link">
+              <img src="assets/dashboard/contract.png" alt="Contract" />
+              <span class="nav-label">Contract</span>
+            </a>
+          </li>
+          <li>
+            <!-- BUKA FILE approval.html -->
+            <a href="approval.html" class="sidebar-link">
+              <img src="assets/dashboard/approval.png" alt="Approval" />
+              <span class="nav-label">Approval</span>
+            </a>
+          </li>
+          <li>
+            <!-- BUKA FILE settings.html -->
+            <a href="settings.html" class="sidebar-link">
+              <img src="assets/dashboard/setting.png" alt="Settings" />
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ================= MAIN AREA ================= -->
+    <div class="main-container">
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <div class="search-bar">
+          <input id="global-search" type="text" placeholder="Search" />
+          <img src="assets/dashboard/search.png" alt="Search Icon" />
+        </div>
+
+        <div class="user-actions">
+          <button class="notification-btn" id="btnNotification" type="button">
+            <img src="assets/dashboard/notification.png" alt="Notifications" />
+          </button>
+
+          <div class="separator"></div>
+
+          <div class="user-profile" id="btnProfile" style="cursor:pointer;">
+            <img src="assets/dashboard/profile.png" alt="Profile" />
+            <div class="user-info">
+              <span class="user-name">Nama</span>
+              <span class="user-role">Jabatan</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ================= MAIN CONTENT – DASHBOARD SAJA ================= -->
+      <main class="main-content">
+        <!-- HEADER DASHBOARD -->
+        <section id="dashboard-header" class="dashboard-header">
+          <h1>Dashboard</h1>
+          <p>
+            Selamat datang,
+            <span id="welcome-name">(Nama)</span>
+          </p>
+        </section>
+
+        <!-- STATUS CARDS -->
+        <section id="status-cards" class="status-cards-grid">
+          <article class="status-card active-contracts">
+            <div class="card-title">
+              <img src="assets/dashboard/active-contract.png" alt="Active Contracts Icon" />
+              <h2>Active Contracts</h2>
+            </div>
+            <p class="card-count" id="count-active">0</p>
+          </article>
+
+          <article class="status-card pending-approval">
+            <div class="card-title">
+              <img src="assets/dashboard/pending.png" alt="Pending Approval Icon" />
+              <h2>Pending Approval</h2>
+            </div>
+            <p class="card-count" id="count-pending">0</p>
+          </article>
+
+          <article class="status-card expiring-soon">
+            <div class="card-title">
+              <img src="assets/dashboard/expiring-soon.png" alt="Expiring Soon Icon" />
+              <h2>Expiring Soon</h2>
+            </div>
+            <p class="card-count" id="count-expiring">0</p>
+          </article>
+
+          <article class="status-card in-progress">
+            <div class="card-title">
+              <img src="assets/dashboard/in-progress.png" alt="In Progress Icon" />
+              <h2>In Progress</h2>
+            </div>
+            <p class="card-count" id="count-progress">0</p>
+          </article>
+        </section>
+
+        <div class="content-columns">
+          <!-- Activity & Reminder -->
+          <section id="activity" class="activity-section">
+            <div class="activity-header">
+              <h2>Activity &amp; Reminder</h2>
+
+              <div class="activity-controls">
+                <button class="add-contract-btn" id="btnAddFromDashboard" type="button">
+                  <img src="assets/dashboard/add.png" alt="Add Icon" />
+                  Add New Contract
+                </button>
+
+                <div class="sort-by">
+                  <span>Sort By</span>
+                  <div class="status-dropdown">
+                    <span>Status</span>
+                    <img src="assets/dashboard/status.png" alt="Dropdown arrow" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ul class="activity-list">
+              <li class="activity-item">
+                <div class="activity-info">
+                  <div class="priority-wrapper">
+                    <img src="assets/dashboard/Ellipse 1.png" alt="High Priority" />
+                    <p class="priority">
+                      Priority: <span class="priority-high">High</span>
+                    </p>
+                  </div>
+
+                  <h3>Approval Kontrak LOA Internship</h3>
+                  <p class="description">
+                    Review dokumen Letter of Agreement (LOA) untuk mahasiswa
+                    magang batch Januari 2025. Pastikan periode magang,
+                    tanggung jawab, dan kompensasi sudah sesuai template standar
+                    perusahaan.
+                  </p>
+                </div>
+
+                <span class="status-tag tag-pending">Pending Approval</span>
+              </li>
+
+              <li class="activity-item">
+                <div class="activity-info">
+                  <div class="priority-wrapper">
+                    <img src="assets/dashboard/Ellipse 2.png" alt="Medium Priority" />
+                    <p class="priority">
+                      Priority: <span class="priority-medium">Medium</span>
+                    </p>
+                  </div>
+
+                  <h3>Kontrak Jasa Desain Grafis</h3>
+                  <p class="description">
+                    Kontrak kerja sama dengan Vendor Xxxxxxxx Studio untuk
+                    layanan desain grafis produk kampanye Brand 2025 akan
+                    berakhir dalam 3 hari.
+                  </p>
+                </div>
+
+                <span class="status-tag tag-expiring">Expiring Soon</span>
+              </li>
+
+              <li class="activity-item">
+                <div class="activity-info">
+                  <div class="priority-wrapper">
+                    <img src="assets/dashboard/Ellipse 3.png" alt="Medium Priority" />
+                    <p class="priority">
+                      Priority: <span class="priority-medium">Medium</span>
+                    </p>
+                  </div>
+
+                  <h3>Finishing Draft Kontrak Digital Marketing</h3>
+                  <p class="description">
+                    Draft akhir kontrak kerja sama digital marketing antara
+                    PT Xxxxx dan Divisi Xxxxx sedang menunggu persetujuan
+                    manajer sebelum diaktifkan.
+                  </p>
+                </div>
+
+                <span class="status-tag tag-progress">In Progress</span>
+              </li>
+            </ul>
+          </section>
+
+          <!-- Right Sidebar -->
+          <aside class="right-sidebar">
+            <!-- Chart Card -->
+            <section id="chart" class="chart-card">
+              <h2>Contract Distribution Chart</h2>
+
+              <div class="chart-content">
+                <img
+                  src="assets/dashboard/Charts.png"
+                  alt="Contract Distribution Chart"
+                  class="pie-chart"
+                />
+
+                <ul class="chart-legend">
+                  <li>
+                    <img src="assets/dashboard/Ellipse 8.png" alt="" />
+                    Operations
+                  </li>
+                  <li>
+                    <img src="assets/dashboard/Ellipse 9.png" alt="" />
+                    Marketing &amp; Sales
+                  </li>
+                  <li>
+                    <img src="assets/dashboard/Ellipse 10.png" alt="" />
+                    Finance, Accounting &amp; Tax
+                  </li>
+                  <li>
+                    <img src="assets/dashboard/Ellipse 11.png" alt="" />
+                    HR &amp; GA
+                  </li>
+                </ul>
+              </div>
+            </section>
+
+            <!-- Notifications -->
+            <section id="notifications" class="notifications-card">
+              <div class="notifications-header">
+                <h2>NOTIFICATIONS</h2>
+                <a href="#" id="seeAllNotif" class="see-all-link">See All Notifications</a>
+              </div>
+
+              <ul class="notification-list">
+                <li>
+                  <img src="assets/dashboard/e" alt="" />
+                  <div class="notification-text">
+                    <p>
+                      <span class="highlight">Vendor Yyyyy</span> telah
+                      menyetujui revisi draft kontrak.
+                    </p>
+                    <small>2 minutes ago.</small>
+                  </div>
+                </li>
+
+                <li>
+                  <img src="assets/dashboard/Ellipse 13.png" alt="" />
+                  <div class="notification-text">
+                    <p>
+                      Kontrak LOA Magang
+                      <span class="highlight">
+                        sudah dikirim ke HR untuk approval.
+                      </span>
+                    </p>
+                    <small>10 minutes ago.</small>
+                  </div>
+                </li>
+
+                <li>
+                  <img src="assets/dashboard/Ellipse 13.png" alt="" />
+                  <div class="notification-text">
+                    <p>
+                      Kontrak Digital Marketing (PT DigitalWave)
+                      <span class="text-gray">
+                        telah disimpan sebagai draft final.
+                      </span>
+                    </p>
+                    <small>55 minutes ago.</small>
+                  </div>
+                </li>
+              </ul>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ✅ SCRIPT CONNECT -->
+  <script>
+    // =========================
+    // SESSION GUARD + USER UI
+    // =========================
+    function getSessionUser() {
+      try {
+        const s = sessionStorage.getItem("user");
+        if (s) return JSON.parse(s);
+      } catch (e) {}
+      try {
+        const l = localStorage.getItem("user");
+        if (l) return JSON.parse(l);
+      } catch (e) {}
+      return null;
+    }
+
+    function setUserUI(user) {
+      const welcome = document.getElementById("welcome-name");
+      if (welcome) welcome.textContent = user?.full_name || user?.name || "(Nama)";
+
+      const topName = document.querySelector(".top-bar .user-name");
+      if (topName) topName.textContent = user?.full_name || user?.name || "Nama";
+
+      const topRole = document.querySelector(".top-bar .user-role");
+      if (topRole) topRole.textContent = user?.role || "User";
+    }
+
+    // =========================
+    // LOAD COUNTS FROM BACKEND
+    // =========================
+    async function fetchContracts() {
+      const res = await fetch("/api/contracts");
+      const text = await res.text();
+      let data = {};
+      try { data = text ? JSON.parse(text) : {}; } catch (e) {}
+
+      if (!res.ok) throw new Error(data.message || data.error || "Gagal load contracts");
+
+      return Array.isArray(data) ? data : (data.data || []);
+    }
+
+    function normalizeStatus(v) {
+      return String(v || "").trim().toLowerCase();
+    }
+
+    function updateCounts(contracts) {
+      const activeEl = document.getElementById("count-active");
+      const pendingEl = document.getElementById("count-pending");
+      const expiringEl = document.getElementById("count-expiring");
+      const progressEl = document.getElementById("count-progress");
+
+      let active = 0, pending = 0, expiring = 0, progress = 0;
+
+      contracts.forEach(c => {
+        const s = normalizeStatus(c.status);
+        if (s.includes("active")) active++;
+        else if (s.includes("pending")) pending++;
+        else if (s.includes("expiring")) expiring++;
+        else if (s.includes("progress")) progress++;
+      });
+
+      if (activeEl) activeEl.textContent = active;
+      if (pendingEl) pendingEl.textContent = pending;
+      if (expiringEl) expiringEl.textContent = expiring;
+      if (progressEl) progressEl.textContent = progress;
+    }
+
+    // =========================
+    // NAV BUTTONS
+    // =========================
+    document.addEventListener("DOMContentLoaded", async () => {
+      const user = getSessionUser();
+      if (!user) {
+        window.location.href = "signin.html";
+        return;
+      }
+
+      setUserUI(user);
+
+      // notif/profile navigation
+      const btnNotif = document.getElementById("btnNotification");
+      if (btnNotif) btnNotif.addEventListener("click", () => window.location.href = "notifications.html");
+
+      const btnProfile = document.getElementById("btnProfile");
+      if (btnProfile) btnProfile.addEventListener("click", () => window.location.href = "settings.html");
+
+      const btnAdd = document.getElementById("btnAddFromDashboard");
+      if (btnAdd) btnAdd.addEventListener("click", () => window.location.href = "contract.html");
+
+      const seeAll = document.getElementById("seeAllNotif");
+      if (seeAll) seeAll.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "notifications.html";
+      });
+
+      // load counts
+      try {
+        const contracts = await fetchContracts();
+        updateCounts(contracts);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

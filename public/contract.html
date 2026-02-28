@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>My Contract – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font Lato -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS utama project -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- CSS layout dashboard (sidebar, topbar, dll) -->
+  <link rel="stylesheet" href="dashboard.css" />
+
+  <!-- CSS khusus halaman kontrak -->
+  <link rel="stylesheet" href="contract.css?v=11" />
+
+  <!-- ✅ HANYA FIX YANG DIPERLUKAN (NO DUPLIKAT / NO KONFLIK) -->
+  <style>
+    #contract-page{
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
+
+    .main-content{
+      padding-top: 16px !important;
+    }
+
+    .page-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      width:100%;
+    }
+
+    /* ✅ turunkan GET STARTED + 2 KOTAK (TABEL TIDAK DIUBAH) */
+    .hero-section{
+      margin-top: 48px !important;
+      margin-bottom: 0 !important;
+      height: auto !important;
+      min-height: unset !important;
+      padding-bottom: 0 !important;
+    }
+
+    .action-icons img { cursor: pointer; }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-layout">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/contract/logo.png" alt="Logo" />
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="dashboard.html" class="sidebar-link">
+              <img src="assets/contract/dashboard.png" alt="Dashboard" />
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="contract.html" class="sidebar-link active">
+              <img src="assets/contract/contract.png" alt="Contracts" />
+              <span class="nav-label">Contract</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="approval.html" class="sidebar-link">
+              <img src="assets/contract/approval.png" alt="Approvals" />
+              <span class="nav-label">Approval</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="settings.html" class="sidebar-link">
+              <img src="assets/contract/setting.png" alt="Settings" />
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ============ MAIN AREA ============ -->
+    <div class="main-container">
+
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <div class="search-bar">
+          <input id="contractSearch" type="text" placeholder="Search" />
+          <img src="assets/contract/search.png" alt="Search" />
+        </div>
+
+        <div class="user-actions">
+          <button class="notification-btn" id="btnNotification" type="button">
+            <img src="assets/contract/notification.png" alt="Notifications" />
+          </button>
+
+          <div class="separator"></div>
+
+          <div class="user-profile" id="btnProfile">
+            <img src="assets/contract/profile.png" alt="Profile" />
+            <div class="user-info">
+              <span class="user-name" id="uiUserName">Nama</span>
+              <span class="user-role" id="uiUserRole">Jabatan</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ================= MAIN CONTENT ================= -->
+      <main class="main-content">
+        <section id="contract-page">
+
+          <section class="dashboard-header">
+            <div class="header-white">
+              <div class="page-header">
+                <h1 class="page-title">My Contract</h1>
+
+                <button class="btn-add-contract" id="btnAddContract" type="button">
+                  <img src="assets/contract/add.png" alt="Add" />
+                  <span>Add New Contract</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="hero-section">
+            <h2 class="hero-title">Get Started!</h2>
+
+            <div class="cards-container">
+              <div class="action-card" id="cardCreateDraft">
+                <div class="card-content">
+                  <div class="card-icon">
+                    <img src="assets/contract/create.png" alt="Create Draft" />
+                  </div>
+                  <span class="card-text">Create a Draft</span>
+                </div>
+              </div>
+
+              <div class="action-card" id="cardUploadPdf">
+                <div class="card-content">
+                  <div class="card-icon">
+                    <img src="assets/contract/upload.png" alt="Upload PDF" />
+                  </div>
+                  <span class="card-text">Upload and Sign a PDF</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TABEL KONTRAK -->
+          <section class="table-wrapper">
+            <table class="contract-table" id="contractTable">
+              <thead>
+                <tr>
+                  <th style="width:35%;">Contract Title</th>
+                  <th style="width:24%;">Vendor</th>
+                  <th style="width:16%;">Contract ID</th>
+                  <th style="width:15%;">Status</th>
+                  <th style="width:10%;">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <!-- Data kontrak akan di-load dari backend melalui API -->
+              </tbody>
+            </table>
+          </section>
+
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <input id="pdfPicker" type="file" accept="application/pdf" style="display:none" />
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const btnAddContract = document.getElementById("btnAddContract");
+      const cardCreateDraft = document.getElementById("cardCreateDraft");
+      const cardUploadPdf = document.getElementById("cardUploadPdf");
+      const btnNotification = document.getElementById("btnNotification");
+      const btnProfile = document.getElementById("btnProfile");
+      const searchInput = document.getElementById("contractSearch");
+      const table = document.getElementById("contractTable");
+      const tbody = table.querySelector("tbody");
+      const pdfPicker = document.getElementById("pdfPicker");
+      const uiUserName = document.getElementById("uiUserName");
+      const uiUserRole = document.getElementById("uiUserRole");
+
+      function getAuthUser() {
+        try {
+          const raw = localStorage.getItem("user") || sessionStorage.getItem("user");
+          if (!raw) return null;
+          const u = JSON.parse(raw);
+          if (!u || !u.id) return null;
+          return u;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      const authUser = getAuthUser();
+      if (!authUser) {
+        window.location.href = "signin.html";
+        return;
+      }
+
+      if (uiUserName) uiUserName.textContent = authUser.full_name || authUser.name || "Nama";
+      if (uiUserRole) uiUserRole.textContent = authUser.role || "Jabatan";
+
+      function safeText(v) {
+        return (v === null || v === undefined) ? "" : String(v);
+      }
+
+      function normalizeContract(raw) {
+        return {
+          id: raw.id ?? raw.contract_id ?? raw.contractId,
+          title: raw.title ?? raw.contract_title ?? raw.name ?? "",
+          vendor: raw.vendor ?? raw.company ?? "",
+          contractId: raw.contractId ?? raw.contract_code ?? raw.contract_id_text ?? "",
+          status: raw.status ?? raw.contract_status ?? ""
+        };
+      }
+
+      async function fetchJSON(url, options) {
+        const opts = options || {};
+        const headers = Object.assign({}, (opts.headers || {}));
+        const isFormData = (opts.body && (opts.body instanceof FormData));
+        if (!isFormData) headers["Content-Type"] = "application/json";
+
+        const res = await fetch(url, { ...opts, headers });
+        const text = await res.text();
+
+        let data = {};
+        try { data = text ? JSON.parse(text) : {}; } catch (e) {}
+
+        if (!res.ok) {
+          const msg = data.message || data.error || text || "Request gagal";
+          throw new Error(msg);
+        }
+        return data;
+      }
+
+      async function fetchForm(url, formData, method = "POST") {
+        const res = await fetch(url, { method, body: formData });
+        const text = await res.text();
+        let data = {};
+        try { data = text ? JSON.parse(text) : {}; } catch (e) {}
+        if (!res.ok) {
+          const msg = data.message || data.error || text || "Upload gagal";
+          throw new Error(msg);
+        }
+        return data;
+      }
+
+      function addRow(contractRaw) {
+        const contract = normalizeContract(contractRaw);
+
+        const tr = document.createElement("tr");
+        tr.dataset.contractId = contract.id;
+
+        tr.innerHTML = `
+          <td>${safeText(contract.title)}</td>
+          <td>${safeText(contract.vendor)}</td>
+          <td>${safeText(contract.contractId)}</td>
+          <td class="status-text">${safeText(contract.status)}</td>
+          <td>
+            <div class="action-icons">
+              <img src="assets/contract/edit.png" alt="Edit" class="icon-edit" />
+              <img src="assets/contract/delete.png" alt="Delete" class="icon-delete" />
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+
+      function attachRowEvents() {
+        tbody.querySelectorAll(".icon-edit").forEach((icon) => {
+          icon.onclick = async () => {
+            const row = icon.closest("tr");
+            const id = row.dataset.contractId;
+
+            const currentTitle = row.cells[0].textContent.trim();
+            const currentVendor = row.cells[1].textContent.trim();
+            const currentContractId = row.cells[2].textContent.trim();
+            const currentStatus = row.cells[3].textContent.trim();
+
+            const title = prompt("Edit judul kontrak:", currentTitle);
+            if (title === null) return;
+
+            const vendor = prompt("Edit vendor:", currentVendor);
+            if (vendor === null) return;
+
+            const contractId = prompt("Edit Contract ID:", currentContractId);
+            if (contractId === null) return;
+
+            const status = prompt("Edit status kontrak:", currentStatus);
+            if (status === null) return;
+
+            try {
+              const updated = await fetchJSON("/api/contracts/" + encodeURIComponent(id), {
+                method: "PUT",
+                body: JSON.stringify({ title, vendor, contractId, status }),
+              });
+
+              const u = normalizeContract(updated);
+              row.cells[0].textContent = u.title;
+              row.cells[1].textContent = u.vendor;
+              row.cells[2].textContent = u.contractId;
+              row.cells[3].textContent = u.status || "";
+            } catch (err) {
+              alert("Gagal mengupdate kontrak:\n" + err.message);
+            }
+          };
+        });
+
+        tbody.querySelectorAll(".icon-delete").forEach((icon) => {
+          icon.onclick = async () => {
+            const row = icon.closest("tr");
+            const id = row.dataset.contractId;
+            const title = row.cells[0].textContent.trim();
+
+            if (!confirm(`Hapus kontrak "${title}"?`)) return;
+
+            try {
+              await fetchJSON("/api/contracts/" + encodeURIComponent(id), { method: "DELETE" });
+              row.remove();
+            } catch (err) {
+              alert("Gagal menghapus kontrak:\n" + err.message);
+            }
+          };
+        });
+      }
+
+      async function loadContracts() {
+        try {
+          // kalau mau per user: `/api/contracts?owner_id=${authUser.id}`
+          const data = await fetchJSON("/api/contracts", { method: "GET" });
+          const rows = Array.isArray(data) ? data : (data.data || []);
+
+          tbody.innerHTML = "";
+          rows.forEach(addRow);
+          attachRowEvents();
+        } catch (err) {
+          console.error("Gagal load contracts:", err);
+        }
+      }
+
+      function filterTable() {
+        const q = searchInput.value.toLowerCase().trim();
+        tbody.querySelectorAll("tr").forEach((row) => {
+          const text = row.innerText.toLowerCase();
+          row.style.display = text.includes(q) ? "" : "none";
+        });
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener("input", filterTable);
+        searchInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") filterTable();
+        });
+      }
+
+      function askContractMeta(defaultStatus) {
+        const title = prompt("Judul kontrak:");
+        if (!title) return null;
+
+        const vendor = prompt("Vendor:");
+        if (!vendor) return null;
+
+        const contractId = prompt("Contract ID:");
+        if (!contractId) return null;
+
+        // Create Draft default "Draft", Upload default "Draft" juga oke
+        const status = defaultStatus || (prompt("Status:", "Draft") || "Draft");
+        return { title, vendor, contractId, status };
+      }
+
+      async function createContract(meta) {
+        return fetchJSON("/api/contracts", {
+          method: "POST",
+          body: JSON.stringify({ ...meta, owner_id: authUser.id })
+        });
+      }
+
+      async function uploadPdfToContract(contractId, file) {
+        const fd = new FormData();
+        fd.append("pdf", file);
+        return fetchForm(`/api/contracts/${encodeURIComponent(contractId)}/upload`, fd, "POST");
+      }
+
+      if (btnAddContract) {
+        btnAddContract.addEventListener("click", async () => {
+          const meta = askContractMeta("Draft");
+          if (!meta) return;
+
+          try {
+            const created = await createContract(meta);
+            addRow(created);
+            attachRowEvents();
+          } catch (err) {
+            alert("Gagal menambahkan kontrak:\n" + err.message);
+          }
+        });
+      }
+
+      // ✅ CONNECT: Create Draft -> approval.html (tanpa upload PDF)
+      if (cardCreateDraft) {
+        cardCreateDraft.addEventListener("click", async () => {
+          const meta = askContractMeta("Draft");
+          if (!meta) return;
+
+          try {
+            const created = await createContract(meta);
+            const c = normalizeContract(created);
+
+            if (!c.id) {
+              alert("Draft berhasil dibuat, tapi id tidak terbaca dari backend.");
+              return;
+            }
+
+            await loadContracts();
+            window.location.href = `approval.html?contract_id=${encodeURIComponent(c.id)}&mode=draft`;
+          } catch (err) {
+            alert("Gagal membuat draft:\n" + err.message);
+          }
+        });
+      }
+
+      // Upload and Sign -> create contract -> upload pdf -> approval
+      if (cardUploadPdf) {
+        cardUploadPdf.addEventListener("click", async () => {
+          const meta = askContractMeta("Draft");
+          if (!meta) return;
+
+          pdfPicker.value = "";
+          pdfPicker.dataset.pendingMeta = JSON.stringify(meta);
+          pdfPicker.click();
+        });
+      }
+
+      if (pdfPicker) {
+        pdfPicker.addEventListener("change", async () => {
+          const file = pdfPicker.files && pdfPicker.files[0];
+          if (!file) return;
+
+          const meta = JSON.parse(pdfPicker.dataset.pendingMeta || "null");
+          if (!meta) {
+            alert("Data kontrak tidak ditemukan. Coba klik Upload and Sign lagi.");
+            return;
+          }
+
+          try {
+            const created = await createContract(meta);
+            const c = normalizeContract(created);
+
+            if (!c.id) {
+              alert("Contract berhasil dibuat, tapi id tidak terbaca dari backend.");
+              return;
+            }
+
+            await uploadPdfToContract(c.id, file);
+            await loadContracts();
+
+            window.location.href = `approval.html?contract_id=${encodeURIComponent(c.id)}`;
+          } catch (err) {
+            alert("Gagal Upload & Sign:\n" + err.message);
+          } finally {
+            pdfPicker.dataset.pendingMeta = "";
+          }
+        });
+      }
+
+      if (btnNotification) btnNotification.addEventListener("click", () => window.location.href = "notifications.html");
+      if (btnProfile) btnProfile.addEventListener("click", () => window.location.href = "settings.html");
+
+      loadContracts();
+    });
+  </script>
+</body>
+</html>

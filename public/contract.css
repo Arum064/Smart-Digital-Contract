@@ -1,0 +1,204 @@
+/* ===============================
+   CONTRACT PAGE – OVERRIDES ONLY
+   (dashboard.css tetap jadi dasar sidebar/topbar/header)
+================================ */
+
+/* ===============================
+   HEADER – MY CONTRACT
+================================ */
+.dashboard-header{
+  background: var(--dash-bg-white);
+  padding: 24px 32px !important;
+  margin: 18px 0 22px 0 !important;
+  border-radius: 6px;
+}
+
+.page-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.page-title{
+  font-size: 42px;
+  font-weight: 600;
+  color: #6a6a6a;
+  margin: 0;
+}
+
+.btn-add-contract{
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #f2f2f2;
+  border: 1px solid #bdbdbd;
+  color: #000;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-add-contract img{
+  width: 12px;
+  height: 12px;
+}
+
+/* ===============================
+   HERO – GET STARTED
+================================ */
+.hero-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  margin-top: 48px !important;   /* ⬅️ TURUNKAN GET STARTED + KOTAK */
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+/* ✅ ini yang kamu mau: tulisan DEKAT ke kotak (kotak tidak bergerak sendiri) */
+#contract-page .hero-title{
+  font-size: 28px;
+  font-weight: 500;
+  color: #636363;
+
+  margin-top: 0 !important;      /* jangan dorong turun dari atas */
+  margin-bottom: 6px !important; /* kecilkan jarak ke kotak */
+}
+
+/* 2 kotak */
+.cards-container{
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+
+  margin-top: 0 !important;      /* ✅ biar kotak tidak makin jauh dari tulisan */
+  padding: 0 !important;
+
+  position: relative;
+  z-index: 0;
+}
+
+.action-card{
+  background-color: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(249, 155, 28, 0.22);
+  width: 380px;
+  max-width: 100%;
+  height: 190px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 22px 28px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  position: relative;
+  z-index: 0;
+}
+
+.action-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(249, 155, 28, 0.28);
+}
+
+.card-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.card-icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.card-icon img{
+  width: 46px;
+  height: 46px;
+}
+
+.card-text{
+  font-size: 15px;
+  color: #4a4a4a;
+}
+
+/* ===============================
+   TABLE – TURUNKAN supaya tidak tumpang tindih
+================================ */
+#contract-page .table-wrapper{
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 120px !important; /* aman di bawah card */
+  padding: 0 !important;
+  position: relative;
+  z-index: 1;
+}
+
+.contract-table{
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.contract-table thead th{
+  background-color: #ffcb61;
+  color: #000000;
+  font-weight: 700;
+  text-align: left;
+  padding: 12px 20px;
+  font-size: 13px;
+}
+
+.contract-table tbody tr{
+  background-color: #ffffff;
+}
+
+.contract-table tbody tr + tr td{
+  border-top: 1px solid #f0f0f0;
+}
+
+.contract-table tbody td{
+  padding: 12px 20px;
+  font-size: 13px;
+  color: #323c47;
+  vertical-align: middle;
+}
+
+.contract-table tbody tr:hover td{
+  background-color: #fafafa;
+}
+
+.action-icons{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-icons img{
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}

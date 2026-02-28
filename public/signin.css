@@ -1,0 +1,449 @@
+/* =========================
+   SIGN UP / SIGN IN PAGE
+   (file ini diletakkan SETELAH styles.css)
+========================= */
+
+#signup {
+  background-color: #ffffff;
+  font-family: "Lato", sans-serif;
+}
+
+/* link di area signup */
+#signup a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =========================
+   LAYOUT KIRI–KANAN
+========================= */
+
+#signup .signup-container {
+  display: flex;
+  width: 100%;
+  max-width: 1920px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: #ffffff;
+}
+
+/* panel ilustrasi kiri */
+#signup .signup-image-panel {
+  flex: 0 0 913px;
+  position: relative;
+  background-color: #d9d9d9;
+}
+
+#signup .signup-image-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* panel form kanan */
+#signup .signup-form-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+#signup .signup-form-wrapper {
+  width: 100%;
+  max-width: 618px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   HEADER FORM
+========================= */
+
+#signup .signup-form-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#signup .signup-logo {
+  width: 225px;
+  height: 225px;
+  object-fit: contain;
+}
+
+#signup .signup-title {
+  margin: 11px 0 37px;
+  font-size: 64px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #636363;
+}
+
+/* =========================
+   FORM UTAMA
+========================= */
+
+#signup .signup-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#signup .form-group {
+  margin-bottom: 37px;
+}
+
+/* label di atas input */
+#signup .input-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* header untuk email / password */
+#signup .input-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   FIX: FORGOT PASSWORD ORANGE
+========================= */
+
+#signup .forgot-password-link,
+#signup .input-header a {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f99b1c !important;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#signup .input-header a:hover {
+  color: #d57f08;
+}
+
+/* =========================
+   INPUT FIELD
+========================= */
+
+#signup .input-line {
+  width: 100%;
+  padding: 8px 4px 12px;
+  font-size: 16px;
+  font-family: "Lato", sans-serif;
+  border: none;
+  border-bottom: 2px solid #636363;
+  outline: none;
+}
+
+#signup .input-line:focus {
+  border-bottom-color: #f99b1c;
+}
+
+/* =========================
+   PASSWORD FIELD (ICON MATA)
+========================= */
+
+#signup .password-field {
+  position: relative;
+  width: 100%;
+}
+
+#signup .password-field .input-line {
+  padding-right: 45px;
+}
+
+#signup .password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  padding: 0 10px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#signup .password-toggle img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.7;
+}
+
+#signup .password-toggle:hover img {
+  opacity: 1;
+}
+
+/* =========================
+   REMEMBER ME
+========================= */
+
+#signup .remember-me {
+  margin-top: -7px;
+  margin-bottom: 34px;
+}
+
+#signup .remember-me-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+}
+
+#signup .remember-me-inner input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  border: 1px solid #000000;
+}
+
+#signup .remember-me-inner span {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+#signup .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border: none;
+  border-radius: 7px;
+  font-family: "Lato", sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+}
+
+#signup .signup-submit-btn {
+  width: 100%;
+  margin-bottom: 29px;
+  font-size: 32px;
+  line-height: 1.2;
+  background-color: #636363;
+  color: #ffffff;
+}
+
+#signup .signup-submit-btn:hover {
+  background-color: #4f4f4f;
+}
+
+/* =========================
+   SEPARATOR
+========================= */
+
+#signup .signup-separator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 22px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #8d8d8d;
+  text-align: center;
+}
+
+#signup .signup-separator::before,
+#signup .signup-separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 2px solid #8d8d8d;
+}
+
+#signup .signup-separator span {
+  padding: 0 1em;
+}
+
+/* =========================
+   SOCIAL BUTTONS
+========================= */
+
+#signup .signup-social-buttons {
+  display: flex;
+  gap: 49px;
+  margin-bottom: 15px;
+}
+
+#signup .btn-social {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+  padding: 12px;
+  font-size: 20px;
+  color: #000000;
+  background-color: #ffffff;
+  border: 2px solid #636363;
+}
+
+#signup .btn-social img {
+  width: 30px;
+  height: 30px;
+}
+
+/* =========================
+   SIGN IN / SIGN UP TEXT
+========================= */
+
+#signup .signup-login-prompt {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+#signup .signup-login-prompt .login-link {
+  color: #f99b1c;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1200px) {
+  #signup .signup-container {
+    flex-direction: column;
+  }
+
+  #signup .signup-image-panel {
+    display: none;
+  }
+
+  #signup .signup-form-panel {
+    padding: 60px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  #signup .signup-title {
+    font-size: 48px;
+  }
+
+  #signup .signup-social-buttons {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #signup .signup-form-panel {
+    padding: 40px 20px;
+  }
+}
+
+/* ======================================================
+   FORCE OVERRIDE (BIAR PASTI BERUBAH DI LAPTOP)
+   Taruh PALING BAWAH file (ini yang bikin ngefek).
+====================================================== */
+
+/* pastikan halaman bisa scroll kalau konten banyak */
+html,
+body {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-y: auto !important;
+}
+
+/* bikin layout "pas laptop" dan tidak kebesaran */
+#signup .signup-container {
+  min-height: 100vh !important;
+  max-width: 1440px !important; /* biar tidak melebar seperti monitor besar */
+}
+
+/* hilangkan fixed 913px: ganti jadi responsif */
+#signup .signup-image-panel {
+  flex: 0 0 clamp(360px, 42vw, 640px) !important; /* responsif laptop */
+  max-width: 640px !important;
+
+  /* ✅ penting: hilangkan area abu-abu sisa contain */
+  background-color: #ffffff !important;
+  overflow: hidden !important;
+}
+
+/* ✅ FIX UTAMA: gambar dibuat memenuhi panel */
+#signup .signup-image-panel img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;        /* dari contain -> cover */
+  object-position: center !important;  /* fokus tengah */
+  display: block !important;
+}
+
+/* form kanan jangan terlalu “gede” */
+#signup .signup-form-panel {
+  padding: 24px 32px !important;
+}
+
+#signup .signup-form-wrapper {
+  max-width: 520px !important;
+}
+
+/* kecilkan header agar fitur lain kebuka */
+#signup .signup-logo {
+  width: 150px !important;
+  height: 150px !important;
+}
+
+#signup .signup-title {
+  font-size: 32px !important;
+  margin: 10px 0 18px !important;
+}
+
+/* rapatkan jarak antar field */
+#signup .form-group {
+  margin-bottom: 18px !important;
+}
+
+#signup .remember-me {
+  margin-bottom: 18px !important;
+}
+
+#signup .remember-me-inner span {
+  font-size: 16px !important;
+}
+
+/* tombol jangan kegedean */
+#signup .signup-submit-btn {
+  font-size: 20px !important;
+  margin-bottom: 16px !important;
+  padding: 12px !important;
+}
+
+/* social buttons lebih rapat */
+#signup .signup-social-buttons {
+  gap: 14px !important;
+}
+
+#signup .btn-social {
+  font-size: 16px !important;
+  padding: 10px !important;
+}
+
+#signup .btn-social img {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+#signup .signup-login-prompt {
+  font-size: 16px !important;
+}
+
+/* kalau layar laptop lebih kecil lagi */
+@media (max-width: 1024px) {
+  #signup .signup-image-panel {
+    flex: 0 0 38% !important;
+    max-width: 520px !important;
+  }
+
+  #signup .signup-title {
+    font-size: 28px !important;
+  }
+}

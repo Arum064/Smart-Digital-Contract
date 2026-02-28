@@ -1,0 +1,1346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Settings – Contract Digital</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font Lato & Inter -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS utama project -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="settings.css" />
+
+  <style>
+    /* ====== HEADER BAR PERSIS SEPERTI "APPROVAL" ====== */
+    .dashboard-header { margin-bottom: 24px; }
+
+    .header-white{
+      background:#ffffff;
+      border-radius:0;
+      padding:24px 24px 18px;
+      border-bottom:1px solid #e4e4e4;
+      box-shadow:none;
+    }
+
+    .page-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .page-header .page-title{
+      font-family:"Lato", sans-serif;
+      font-size:32px;
+      font-weight:500;
+      color:#4f4f4f;
+      margin:0;
+      letter-spacing:0.2px;
+    }
+
+    /* ====== BATASI LEBAR KONTEN & KOTAK PUTIH ====== */
+    .main-content{
+      background:#f0f0f0;
+      padding:24px 24px 40px;
+      box-sizing:border-box;
+    }
+
+    .header-white,
+    .settings-card-wrapper{
+      max-width:2000px;
+      margin:0 auto;
+    }
+
+    .settings-card-wrapper{ margin-top:16px; }
+
+    .settings-card{
+      width:100% !important;
+      max-width:100% !important;
+      margin:0 !important;
+      box-sizing:border-box;
+      min-height:520px;
+      display:flex;
+      background-color:#ffffff;
+      box-shadow:0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .settings-nav .nav-item{
+      border:none;
+      background:none;
+      width:100%;
+      text-align:left;
+    }
+
+    /* TAB KONTEN */
+    .settings-tab{ display:none; }
+    .settings-tab.active{ display:block; }
+
+    /* ====== TOPBAR ====== */
+    .user-actions{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+
+    /* Profile (hiasan saja, tidak klik) */
+    .user-profile{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      cursor:default;
+      user-select:none;
+    }
+    .user-profile:hover .user-name{ text-decoration:none; }
+
+    /* ====== NOTIFICATION ICON (HIASAN SAJA) ====== */
+    .notification-btn{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0;
+      border:none;
+      background:transparent;
+      cursor:default;
+      pointer-events:none; /* ✅ nonaktif total */
+      user-select:none;
+    }
+    .notification-btn img{
+      width:28px;
+      height:28px;
+      display:block;
+      filter: brightness(0) saturate(100%);
+    }
+
+    /* ✅ HILANGKAN TANDA MERAH (DOT) */
+    .notification-dot{
+      display:none !important;
+      visibility:hidden !important;
+      opacity:0 !important;
+      pointer-events:none !important;
+    }
+
+    /* ====== FORCE HIDE DROPDOWN (kalau ada style lama) ====== */
+    .notification-dropdown,
+    .profile-dropdown{
+      display:none !important;
+      visibility:hidden !important;
+      opacity:0 !important;
+      pointer-events:none !important;
+    }
+
+    /* ====== Profile Picture: avatar bulat ====== */
+    .profile-picture-section .section-label{ margin-top:18px; }
+
+    .avatar-wrapper{
+      width:86px;
+      height:86px;
+      border-radius:50%;
+      overflow:hidden;
+      flex:0 0 86px;
+      background:#eee;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    #avatarImage{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:50%;
+      display:block;
+    }
+
+    /* ====== SECURITY TAB STYLING ====== */
+    .content-grid{
+      display:grid;
+      grid-template-columns:1.1fr 1fr;
+      gap:80px;
+      align-items:start;
+    }
+
+    .password-section,.session-section{ display:flex; flex-direction:column; }
+    .password-section{ gap:12px; }
+    .session-section{ gap:16px; }
+
+    .security-subtitle{
+      margin-top:4px;
+      margin-bottom:16px;
+      font-size:14px;
+      color:#888;
+      line-height:1.4;
+    }
+
+    /* ✅ LINK ke halaman settings-notifications.html */
+    .notif-link{
+      color:#f9980d;
+      font-weight:700;
+      text-decoration:none;
+      border-bottom:1px solid transparent;
+    }
+    .notif-link:hover{ border-bottom-color:#f9980d; }
+
+    .security-header-line{
+      width:100%;
+      height:1px;
+      background-color:#636363;
+      opacity:0.3;
+      margin-bottom:24px;
+    }
+
+    .btn-outline{
+      margin-top:16px;
+      height:46px;
+      background:#fff7ea;
+      border:1px solid #f99b1c;
+      border-radius:10px;
+      color:#f99b1c;
+      font-weight:600;
+      font-size:16px;
+      padding:0 30px;
+      width:fit-content;
+      align-self:flex-start;
+      cursor:pointer;
+    }
+    .btn-outline:hover{ background-color:#ffe2b8; }
+    .btn-full-width{ width:100%; text-align:center; justify-content:center; }
+
+    /* ====== ACTIVE SESSION ====== */
+    .device-card{
+      background:#ffffff;
+      border-radius:10px;
+      box-shadow:2px 2px 4px rgba(0,0,0,0.25);
+      padding:20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      min-height:105px;
+      gap:18px;
+    }
+
+    .device-info-left{ display:flex; align-items:center; gap:18px; min-width:0; flex:1; }
+    .device-details{ display:flex; flex-direction:column; min-width:0; }
+    .device-name-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; min-width:0; }
+
+    .device-name,.browser-name{ font-size:16px; color:#636363; white-space:nowrap; }
+    .location-text{ font-size:14px; color:#8f8f8f; }
+
+    .device-status{ display:flex; align-items:center; gap:10px; white-space:nowrap; }
+
+    .device-icon{
+      width:44px;
+      height:44px;
+      flex:0 0 44px;
+      object-fit:contain;
+      display:block;
+    }
+
+    .dot-sep{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#bdbdbd;
+      display:inline-block;
+      flex:0 0 6px;
+    }
+
+    .status-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#4caf50;
+      display:inline-block;
+      flex:0 0 10px;
+      box-shadow:0 0 0 2px #eaf7ee;
+    }
+
+    .status-text.active{ color:#4caf50; font-weight:600; }
+    .status-text.logout{ color:#d71f40; font-weight:600; cursor:pointer; }
+    .status-text.logout:hover{ text-decoration:underline; }
+
+    @media (max-width: 1200px){
+      .content-grid{ grid-template-columns:1fr; gap:40px; }
+    }
+
+    /* =========================
+       APPEARANCE: CUSTOM DROPDOWN (ORANGE-WHITE)
+    ========================= */
+    :root{
+      --cd-orange:#f9980d;
+      --cd-orange-soft:#fff2df;
+      --cd-text:#636363;
+      --cd-border:#dedede;
+      --cd-shadow: 0 10px 24px rgba(0,0,0,.10);
+      --cd-focus: 0 0 0 4px rgba(249,152,13,.18);
+      --cd-radius: 14px;
+    }
+
+    .native-select-hidden{
+      position:absolute !important;
+      left:-9999px !important;
+      width:1px !important;
+      height:1px !important;
+      opacity:0 !important;
+      pointer-events:none !important;
+    }
+
+    .appearance-wrapper{ margin-top: 8px; max-width: 720px; }
+    .appearance-group{ display:flex; flex-direction:column; gap:10px; margin-bottom: 18px; }
+    .appearance-label{
+      display:block;
+      color:#6a6a6a;
+      font-weight:600;
+      font-size:14px;
+      letter-spacing:.2px;
+      font-family:"Lato",sans-serif;
+    }
+
+    .select-wrapper{ position: relative; width:100%; max-width:560px; }
+
+    .cd-select{ position:relative; width:100%; }
+    .cd-select-btn{
+      width:100%;
+      height:48px;
+      border-radius: var(--cd-radius);
+      border:1px solid var(--cd-border);
+      background:#fff;
+      color:#4a4a4a;
+      padding:0 44px 0 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-family:"Inter","Lato",sans-serif;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition: border-color .15s ease, box-shadow .15s ease, background .15s ease, transform .15s ease;
+    }
+    .cd-select-btn:hover{
+      border-color:#d2d2d2;
+      background:#fcfcfc;
+      transform: translateY(-1px);
+    }
+    .cd-select-btn:focus{
+      outline:none;
+      border-color: var(--cd-orange);
+      box-shadow: var(--cd-focus);
+      background: var(--cd-orange-soft);
+      transform: translateY(0);
+    }
+
+    .cd-select-value{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      padding-right:10px;
+    }
+
+    .cd-select-chevron{
+      width:10px; height:10px;
+      border-right:2px solid #8b8b8b;
+      border-bottom:2px solid #8b8b8b;
+      transform: rotate(45deg);
+      transition: transform .15s ease, border-color .15s ease;
+      flex:0 0 10px;
+      margin-left:12px;
+    }
+    .cd-select.open .cd-select-chevron{
+      transform: rotate(-135deg);
+      border-color: var(--cd-orange);
+    }
+
+    .cd-select-panel{
+      position:absolute;
+      top: calc(100% + 10px);
+      left:0;
+      width:100%;
+      background:#fff;
+      border:1px solid #e6e6e6;
+      border-radius: 16px;
+      box-shadow: var(--cd-shadow);
+      padding:8px;
+      display:none;
+      z-index: 60;
+    }
+    .cd-select.open .cd-select-panel{ display:block; }
+
+    .cd-option{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      color:#444;
+      font-size:14px;
+      font-weight:600;
+      transition: background .12s ease, transform .12s ease, border-color .12s ease;
+    }
+    .cd-option:hover{
+      background: var(--cd-orange-soft);
+      transform: translateX(2px);
+    }
+    .cd-option.selected{
+      background: rgba(249,152,13,.12);
+      border: 1px solid rgba(249,152,13,.35);
+    }
+    .cd-check{
+      width:18px;height:18px;
+      border-radius:6px;
+      border:2px solid rgba(249,152,13,.35);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--cd-orange);
+      font-size:12px;
+      opacity:0;
+      transform: scale(.92);
+      transition: opacity .12s ease, transform .12s ease;
+      flex:0 0 18px;
+      margin-left:10px;
+    }
+    .cd-option.selected .cd-check{ opacity:1; transform: scale(1); }
+
+    /* =========================
+       ✅ NOTIFICATIONS (MATCH FIGMA)
+       hanya untuk tab notifications
+    ========================= */
+    .notif-wrap{
+      max-width: 760px;
+    }
+
+    .notif-sub{
+      margin-top: 6px;
+      font-size: 13px;
+      color:#9a9a9a;
+      line-height: 1.4;
+    }
+
+    .notif-divider{
+      width:100%;
+      height:1px;
+      background:#d9d9d9;
+      margin: 14px 0 10px;
+    }
+
+    .notif-section{
+      margin-top: 8px;
+    }
+
+    .notif-section-title{
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      color:#7a7a7a;
+      margin: 12px 0 6px;
+      text-transform: uppercase;
+    }
+
+    .notif-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding: 12px 0;
+      border-bottom: 1px solid #ececec;
+    }
+
+    .notif-item:last-child{
+      border-bottom:none;
+    }
+
+    .notif-text{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+
+    .notif-title{
+      font-size: 14px;
+      font-weight: 600;
+      color:#636363;
+      margin:0;
+    }
+
+    .notif-desc{
+      font-size: 12px;
+      color:#9a9a9a;
+      margin:0;
+      line-height:1.35;
+    }
+
+    /* Toggle (grey like figma) */
+    .notif-toggle{
+      width: 44px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid #e1e1e1;
+      background:#f2f2f2;
+      position:relative;
+      cursor:pointer;
+      flex: 0 0 auto;
+      transition: background .15s ease, border-color .15s ease;
+    }
+
+    .notif-toggle::after{
+      content:"";
+      width: 18px;
+      height: 18px;
+      border-radius:999px;
+      background:#ffffff;
+      position:absolute;
+      top: 2px;
+      left: 2px;
+      box-shadow: 0 3px 10px rgba(0,0,0,.10);
+      transition: transform .15s ease;
+    }
+
+    .notif-toggle.on{
+      background: rgba(249,152,13,.22);
+      border-color: rgba(249,152,13,.35);
+    }
+    .notif-toggle.on::after{
+      transform: translateX(20px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-layout">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/settings/logo.png" alt="Logo" />
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="dashboard.html" class="sidebar-link">
+              <img src="assets/settings/dashboard.png" alt="Dashboard" />
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="contract.html" class="sidebar-link">
+              <img src="assets/settings/contract.png" alt="Contracts" />
+              <span class="nav-label">Contract</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="approval.html" class="sidebar-link">
+              <img src="assets/settings/approval.png" alt="Approval" />
+              <span class="nav-label">Approval</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="settings.html" class="sidebar-link active">
+              <img src="assets/settings/settings.png" alt="Settings" />
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- ============ AREA KANAN ============ -->
+    <div class="main-container">
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <div class="search-bar">
+          <input id="searchInput" type="text" placeholder="Search" />
+          <img src="assets/settings/search.png" alt="Search" />
+        </div>
+
+        <div class="user-actions">
+          <!-- ✅ NOTIF: HIASAN SAJA (DOT DIHILANGKAN) -->
+          <button class="notification-btn" type="button" aria-label="Notifications" tabindex="-1">
+            <img src="assets/settings/notification.png" alt="Notifications" />
+            <!-- <span class="notification-dot" id="notificationDot"></span> -->
+          </button>
+
+          <div class="separator"></div>
+
+          <!-- Profile (hiasan saja) -->
+          <div class="user-profile">
+            <img src="assets/settings/profile.png" alt="Profile Avatar" />
+            <div class="user-info">
+              <span class="user-name" id="topUserName">Nama</span>
+              <span class="user-role" id="topUserRole">Jabatan</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============ KONTEN UTAMA SETTINGS ============ -->
+      <main class="main-content">
+        <!-- HEADER PUTIH (judul + tombol) -->
+        <section class="dashboard-header">
+          <div class="header-white">
+            <div class="page-header">
+              <h1 class="page-title">Settings</h1>
+
+              <div class="page-actions">
+                <button id="btnCancel" class="btn-cancel" type="button">Cancel</button>
+                <button id="btnSave" class="btn-save" type="button">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- KOTAK PUTIH BESAR -->
+        <section class="settings-card-wrapper">
+          <section class="settings-card">
+            <!-- NAV KIRI : tab -->
+            <aside class="settings-nav">
+              <button type="button" class="nav-item active" data-tab="personal">
+                <div class="icon-wrapper">
+                  <img src="assets/settings/information.png" alt="Info" />
+                </div>
+                <span>Personal Information</span>
+              </button>
+
+              <button type="button" class="nav-item" data-tab="security">
+                <div class="icon-wrapper">
+                  <img src="assets/settings/security1.png" alt="Security" />
+                </div>
+                <span>Security</span>
+              </button>
+
+              <!-- ✅ Notifications sekarang bisa diklik -->
+              <button type="button" class="nav-item" data-tab="notifications">
+                <div class="icon-wrapper">
+                  <img src="assets/settings/notification1.png" alt="Notifications" />
+                </div>
+                <span>Notifications</span>
+              </button>
+
+              <button type="button" class="nav-item" data-tab="appearance">
+                <div class="icon-wrapper">
+                  <img src="assets/settings/appearance1.png" alt="Appearance" />
+                </div>
+                <span>Appearance</span>
+              </button>
+            </aside>
+
+            <!-- Garis vertikal tipis -->
+            <div class="vertical-divider"></div>
+
+            <!-- KONTEN KANAN : TAB-TAB -->
+            <section class="settings-content">
+
+              <!-- TAB PERSONAL INFORMATION -->
+              <div class="settings-tab active" data-tab="personal">
+                <form id="settingsForm">
+                  <div class="content-header">
+                    <h2>Personal Information</h2>
+                    <p>Manage your personal and organizational profile information</p>
+                  </div>
+
+                  <div class="horizontal-divider"></div>
+
+                  <!-- PROFILE PICTURE -->
+                  <div class="profile-picture-section">
+                    <h3 class="section-label">Profile Picture</h3>
+
+                    <div class="avatar-row">
+                      <div class="avatar-wrapper">
+                        <img id="avatarImage" src="assets/settings/Avatars.png" alt="Avatar" />
+                      </div>
+
+                      <div class="avatar-info">
+                        <span id="avatarName" class="avatar-name">Nama Lengkap</span>
+                        <span class="avatar-role" id="avatarRole">Role/title</span>
+                      </div>
+
+                      <div class="avatar-actions">
+                        <input type="file" id="avatarFile" accept="image/*" style="display:none" />
+                        <button class="btn-upload" type="button" id="btnUploadPhoto">Upload New Photo</button>
+                        <button class="btn-delete" type="button" id="btnDeletePhoto">Delete</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- PROFILE INFO FORM -->
+                  <div class="form-section">
+                    <h3 class="section-label">Profile Information</h3>
+
+                    <div class="form-group">
+                      <label for="fullName">Full Name</label>
+                      <input id="fullName" name="fullName" type="text" class="form-input" value="" />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="phoneNumber">Phone Number</label>
+                      <input id="phoneNumber" name="phoneNumber" type="tel" class="form-input" value="" placeholder="Masukkan nomor HP" />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="companyEmail">Company Email</label>
+                      <input id="companyEmail" name="companyEmail" type="email" class="form-input" value="" readonly />
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <!-- TAB SECURITY -->
+              <div class="settings-tab" data-tab="security">
+                <div class="content-header">
+                  <h2>Security</h2>
+
+                  <p class="security-subtitle">
+                    We may still send you important
+                    <a href="settings-notifications.html" class="notif-link">notification</a>
+                    about your account
+                  </p>
+
+                  <div class="security-header-line"></div>
+                </div>
+
+                <div class="content-grid">
+                  <!-- Change Password Section -->
+                  <div class="password-section">
+                    <h3>Change Password</h3>
+
+                    <form id="passwordForm">
+                      <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input id="currentPassword" type="password" class="form-input" required />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input id="newPassword" type="password" class="form-input" required />
+                      </div>
+
+                      <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input id="confirmPassword" type="password" class="form-input" required />
+                      </div>
+
+                      <button type="submit" class="btn-outline">Save Changes</button>
+                    </form>
+                  </div>
+
+                  <!-- Active Session Section -->
+                  <div class="session-section">
+                    <h3>Active Session</h3>
+
+                    <div class="device-card" id="deviceDesktop">
+                      <div class="device-info-left">
+                        <img src="assets/settings/Laptop.png" alt="Laptop" class="device-icon" />
+                        <div class="device-details">
+                          <div class="device-name-row">
+                            <span class="device-name">Windows PC</span>
+                            <span class="dot-sep" aria-hidden="true"></span>
+                            <span class="browser-name">Chrome</span>
+                          </div>
+                          <span class="location-text">Surabaya, Indonesia</span>
+                        </div>
+                      </div>
+                      <div class="device-status">
+                        <span class="status-dot" aria-hidden="true"></span>
+                        <span class="status-text active" data-role="desktop-status">Active now</span>
+                      </div>
+                    </div>
+
+                    <div class="device-card" id="deviceMobile">
+                      <div class="device-info-left">
+                        <img src="assets/settings/handphone.png" alt="Phone" class="device-icon" />
+                        <div class="device-details">
+                          <div class="device-name-row">
+                            <span class="device-name">Galaxy A51</span>
+                            <span class="dot-sep" aria-hidden="true"></span>
+                            <span class="browser-name">Chrome</span>
+                          </div>
+                          <span class="location-text">Surabaya, Indonesia</span>
+                        </div>
+                      </div>
+                      <div class="device-status">
+                        <span class="status-text logout" data-role="logout-one">[ Log Out ]</span>
+                      </div>
+                    </div>
+
+                    <button type="button" class="btn-outline btn-full-width" id="logoutAllBtn">
+                      [ Log Out All Devices ]
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ✅ TAB NOTIFICATIONS (MATCH FIGMA) -->
+              <div class="settings-tab" data-tab="notifications">
+                <div class="content-header notif-wrap">
+                  <h2>Notifications</h2>
+                  <p class="notif-sub">
+                    We may still send you important notification about your account
+                  </p>
+
+                  <div class="notif-divider"></div>
+
+                  <!-- GENERAL PREFERENCES -->
+                  <div class="notif-section">
+                    <div class="notif-section-title">GENERAL PREFERENCES</div>
+
+                    <div class="notif-item">
+                      <div class="notif-text">
+                        <p class="notif-title">Email Notifications</p>
+                        <p class="notif-desc">Receive daily summaries and critical alerts via email.</p>
+                      </div>
+                      <button class="notif-toggle" type="button" data-notif="email"></button>
+                    </div>
+
+                    <div class="notif-item">
+                      <div class="notif-text">
+                        <p class="notif-title">Push Notifications</p>
+                        <p class="notif-desc">Receive real-time pop-ups on your device.</p>
+                      </div>
+                      <button class="notif-toggle" type="button" data-notif="push"></button>
+                    </div>
+                  </div>
+
+                  <div class="notif-divider"></div>
+
+                  <!-- CONTRACT ACTIVITY -->
+                  <div class="notif-section">
+                    <div class="notif-section-title">CONTRACT ACTIVITY</div>
+
+                    <div class="notif-item">
+                      <div class="notif-text">
+                        <p class="notif-title">Signature Requests</p>
+                        <p class="notif-desc">Notify me when someone requests my signature.</p>
+                      </div>
+                      <button class="notif-toggle" type="button" data-notif="signature"></button>
+                    </div>
+
+                    <div class="notif-item">
+                      <div class="notif-text">
+                        <p class="notif-title">Review &amp; Approval</p>
+                        <p class="notif-desc">Notify me when a document needs my approval.</p>
+                      </div>
+                      <button class="notif-toggle" type="button" data-notif="approval"></button>
+                    </div>
+                  </div>
+
+                  <div class="notif-divider"></div>
+
+                  <!-- REMINDERS -->
+                  <div class="notif-section">
+                    <div class="notif-section-title">REMINDERS</div>
+
+                    <div class="notif-item">
+                      <div class="notif-text">
+                        <p class="notif-title">Expiration Alerts</p>
+                        <p class="notif-desc">Remind me when a contract is expiring soon.</p>
+                      </div>
+                      <button class="notif-toggle" type="button" data-notif="expiry"></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TAB APPEARANCE (CUSTOM DROPDOWN) -->
+              <div class="settings-tab" data-tab="appearance">
+                <div class="content-header">
+                  <h2>Appearance</h2>
+                  <p class="security-subtitle">Customize how the application looks and feels on your device</p>
+                  <div class="horizontal-divider"></div>
+                </div>
+
+                <div class="appearance-wrapper">
+                  <!-- Interface Theme -->
+                  <div class="appearance-group">
+                    <label class="appearance-label" for="themeSelect">Interface Theme</label>
+
+                    <div class="select-wrapper" data-cd-select="themeSelect">
+                      <select id="themeSelect" class="native-select-hidden">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="device">Device Default</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Font Size -->
+                  <div class="appearance-group">
+                    <label class="appearance-label" for="fontSizeSelect">Font Size</label>
+
+                    <div class="select-wrapper" data-cd-select="fontSizeSelect">
+                      <select id="fontSizeSelect" class="native-select-hidden">
+                        <option value="xs">Very Small</option>
+                        <option value="sm">Small</option>
+                        <option value="md" selected>Medium (Recommended)</option>
+                        <option value="lg">Large</option>
+                        <option value="xl">Very Large</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Language -->
+                  <div class="appearance-group">
+                    <label class="appearance-label" for="languageSelect">Language</label>
+
+                    <div class="select-wrapper" data-cd-select="languageSelect">
+                      <select id="languageSelect" class="native-select-hidden">
+                        <option value="en">English</option>
+                        <option value="id">Indonesia</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </section>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // SESSION GUARD + USER DATA
+    // =========================
+    function getSessionUser() {
+      try { const s = sessionStorage.getItem("user"); if (s) return JSON.parse(s); } catch(e){}
+      try { const l = localStorage.getItem("user"); if (l) return JSON.parse(l); } catch(e){}
+      return null;
+    }
+
+    function saveUser(user){
+      try { sessionStorage.setItem("user", JSON.stringify(user)); } catch(e){}
+      try { localStorage.setItem("user", JSON.stringify(user)); } catch(e){}
+    }
+
+    function applyUserToUI(user){
+      const name = user?.full_name || user?.name || "";
+      const role = user?.role || user?.title || "User";
+      const email = user?.email || user?.companyEmail || "";
+
+      const topName = document.getElementById("topUserName");
+      const topRole = document.getElementById("topUserRole");
+      if (topName) topName.textContent = name || "Nama";
+      if (topRole) topRole.textContent = role || "Jabatan";
+
+      const avatarName = document.getElementById("avatarName");
+      const avatarRole = document.getElementById("avatarRole");
+      const fullName = document.getElementById("fullName");
+      const companyEmail = document.getElementById("companyEmail");
+      const phoneNumber = document.getElementById("phoneNumber");
+
+      if (avatarName) avatarName.textContent = name || "Nama";
+      if (avatarRole) avatarRole.textContent = role || "User";
+      if (fullName) fullName.value = name || "";
+      if (companyEmail) companyEmail.value = email || "";
+      if (phoneNumber) phoneNumber.value = user?.phone || "";
+    }
+
+    // =========================
+    // TAB SWITCHING (✅ include notifications)
+    // =========================
+    (function () {
+      const navItems = document.querySelectorAll(".settings-nav .nav-item");
+      const tabs = document.querySelectorAll(".settings-tab");
+
+      navItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          const target = item.getAttribute("data-tab");
+          if (!target) return;
+
+          document.querySelectorAll(".settings-nav .nav-item").forEach((i) => i.classList.remove("active"));
+          item.classList.add("active");
+
+          tabs.forEach((tab) => {
+            tab.classList.toggle("active", tab.getAttribute("data-tab") === target);
+          });
+        });
+      });
+    })();
+
+    // =========================
+    // SEARCH (DEMO)
+    // =========================
+    (function () {
+      const searchInput = document.getElementById("searchInput");
+      if (!searchInput) return;
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const value = searchInput.value.trim();
+          if (value) alert('Pencarian: "' + value + '" (demo search)');
+        }
+      });
+    })();
+
+    // =========================
+    // AVATAR: LOAD/SAVE/DELETE
+    // =========================
+    (function () {
+      const fileInput = document.getElementById("avatarFile");
+      const avatarImg = document.getElementById("avatarImage");
+      const btnUploadPhoto = document.getElementById("btnUploadPhoto");
+      const btnDeletePhoto = document.getElementById("btnDeletePhoto");
+
+      const DEFAULT_AVATAR = "assets/settings/Avatars.png";
+
+      function loadAvatar(){
+        const stored = localStorage.getItem("cd_avatar");
+        if (stored && avatarImg) avatarImg.src = stored;
+      }
+
+      function saveAvatar(dataUrl){
+        localStorage.setItem("cd_avatar", dataUrl);
+      }
+
+      function clearAvatar(){
+        localStorage.removeItem("cd_avatar");
+        if (avatarImg) avatarImg.src = DEFAULT_AVATAR;
+        if (fileInput) fileInput.value = "";
+      }
+
+      if (btnUploadPhoto && fileInput) {
+        btnUploadPhoto.addEventListener("click", () => fileInput.click());
+
+        fileInput.addEventListener("change", () => {
+          const file = fileInput.files && fileInput.files[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const dataUrl = e.target.result;
+            avatarImg.src = dataUrl;
+            saveAvatar(dataUrl);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      if (btnDeletePhoto) btnDeletePhoto.addEventListener("click", clearAvatar);
+
+      loadAvatar();
+    })();
+
+    // =========================
+    // CUSTOM DROPDOWN BUILDER
+    // =========================
+    function buildCustomDropdown(selectId){
+      const wrapper = document.querySelector(".select-wrapper[data-cd-select='" + selectId + "']");
+      const select = document.getElementById(selectId);
+      if (!wrapper || !select) return;
+
+      const old = wrapper.querySelector(".cd-select");
+      if (old) old.remove();
+
+      const cd = document.createElement("div");
+      cd.className = "cd-select";
+      cd.setAttribute("data-for", selectId);
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "cd-select-btn";
+
+      const valueSpan = document.createElement("span");
+      valueSpan.className = "cd-select-value";
+
+      const chev = document.createElement("span");
+      chev.className = "cd-select-chevron";
+
+      btn.appendChild(valueSpan);
+      btn.appendChild(chev);
+
+      const panel = document.createElement("div");
+      panel.className = "cd-select-panel";
+
+      function renderValue(){
+        const currentOpt = select.options[select.selectedIndex];
+        valueSpan.textContent = currentOpt ? currentOpt.textContent : "";
+      }
+
+      function renderOptions(){
+        panel.innerHTML = "";
+        Array.from(select.options).forEach((opt) => {
+          const item = document.createElement("div");
+          item.className = "cd-option";
+          item.setAttribute("data-value", opt.value);
+
+          const left = document.createElement("span");
+          left.textContent = opt.textContent;
+
+          const check = document.createElement("span");
+          check.className = "cd-check";
+          check.textContent = "✓";
+
+          item.appendChild(left);
+          item.appendChild(check);
+
+          if (opt.value === select.value) item.classList.add("selected");
+
+          item.addEventListener("click", () => {
+            select.value = opt.value;
+            select.dispatchEvent(new Event("change", { bubbles: true }));
+            closeAllDropdown();
+          });
+
+          panel.appendChild(item);
+        });
+      }
+
+      function open(){
+        renderOptions();
+        cd.classList.add("open");
+        btn.focus();
+      }
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = cd.classList.contains("open");
+        closeAllDropdown();
+        if (!isOpen) open();
+      });
+
+      select.addEventListener("change", () => renderValue());
+
+      cd.appendChild(btn);
+      cd.appendChild(panel);
+      wrapper.appendChild(cd);
+
+      renderValue();
+    }
+
+    function closeAllDropdown(){
+      document.querySelectorAll(".cd-select.open").forEach((el) => el.classList.remove("open"));
+    }
+
+    document.addEventListener("click", closeAllDropdown);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeAllDropdown();
+    });
+
+    // =========================
+    // SAVE + CANCEL (PROFILE + APPEARANCE)
+    // =========================
+    (function () {
+      const btnSave = document.getElementById("btnSave");
+      const btnCancel = document.getElementById("btnCancel");
+
+      function applyTheme(value) {
+        document.body.classList.remove("theme-light", "theme-dark", "theme-device");
+        document.body.classList.add(`theme-${value}`);
+      }
+
+      function applyFontSize(value) {
+        document.documentElement.style.fontSize = ({
+          xs: "12px",
+          sm: "13px",
+          md: "14px",
+          lg: "15px",
+          xl: "16px",
+        }[value] || "14px");
+      }
+
+      function loadAppearance(){
+        const themeSelect = document.getElementById("themeSelect");
+        const fontSizeSelect = document.getElementById("fontSizeSelect");
+        const languageSelect = document.getElementById("languageSelect");
+
+        const storedTheme = localStorage.getItem("cd_theme");
+        const storedFont = localStorage.getItem("cd_font_size");
+        const storedLang = localStorage.getItem("cd_language");
+
+        if (storedTheme && themeSelect) { themeSelect.value = storedTheme; themeSelect.dispatchEvent(new Event("change",{bubbles:true})); applyTheme(storedTheme); }
+        if (storedFont && fontSizeSelect) { fontSizeSelect.value = storedFont; fontSizeSelect.dispatchEvent(new Event("change",{bubbles:true})); applyFontSize(storedFont); }
+        if (storedLang && languageSelect) { languageSelect.value = storedLang; languageSelect.dispatchEvent(new Event("change",{bubbles:true})); }
+      }
+
+      function saveAppearance(){
+        const themeSelect = document.getElementById("themeSelect");
+        const fontSizeSelect = document.getElementById("fontSizeSelect");
+        const languageSelect = document.getElementById("languageSelect");
+
+        if (themeSelect) localStorage.setItem("cd_theme", themeSelect.value);
+        if (fontSizeSelect) localStorage.setItem("cd_font_size", fontSizeSelect.value);
+        if (languageSelect) localStorage.setItem("cd_language", languageSelect.value);
+      }
+
+      const themeSelect = document.getElementById("themeSelect");
+      const fontSizeSelect = document.getElementById("fontSizeSelect");
+      if (themeSelect) themeSelect.addEventListener("change", () => applyTheme(themeSelect.value));
+      if (fontSizeSelect) fontSizeSelect.addEventListener("change", () => applyFontSize(fontSizeSelect.value));
+
+      if (btnSave) {
+        btnSave.addEventListener("click", () => {
+          const user = getSessionUser();
+          if (!user) { window.location.href = "signin.html"; return; }
+
+          const fullName = document.getElementById("fullName");
+          const phone = document.getElementById("phoneNumber");
+
+          const newName = (fullName?.value || "").trim();
+          const newPhone = (phone?.value || "").trim();
+
+          if (!newName){
+            alert("Full Name tidak boleh kosong.");
+            return;
+          }
+
+          user.full_name = newName;
+          user.name = newName;
+          user.phone = newPhone;
+
+          saveUser(user);
+          applyUserToUI(user);
+
+          saveAppearance();
+          alert("Settings berhasil disimpan.");
+        });
+      }
+
+      if (btnCancel) {
+        btnCancel.addEventListener("click", () => {
+          if (confirm("Batalkan perubahan dan kembalikan ke nilai terakhir tersimpan?")) {
+            window.location.reload();
+          }
+        });
+      }
+
+      buildCustomDropdown("themeSelect");
+      buildCustomDropdown("fontSizeSelect");
+      buildCustomDropdown("languageSelect");
+
+      loadAppearance();
+    })();
+
+    // =========================
+    // NOTIFICATIONS TOGGLE (persist)
+    // =========================
+    (function(){
+      const toggles = document.querySelectorAll(".notif-toggle[data-notif]");
+      if (!toggles.length) return;
+
+      function keyFor(t){ return "cd_notif_" + t.getAttribute("data-notif"); }
+
+      function load(){
+        toggles.forEach(t => {
+          const saved = localStorage.getItem(keyFor(t));
+          if (saved === "1") t.classList.add("on");
+          if (saved === "0") t.classList.remove("on");
+        });
+      }
+
+      toggles.forEach(t => {
+        t.addEventListener("click", () => {
+          t.classList.toggle("on");
+          localStorage.setItem(keyFor(t), t.classList.contains("on") ? "1" : "0");
+        });
+      });
+
+      load();
+    })();
+
+    // =========================
+    // CHANGE PASSWORD (DEMO)
+    // =========================
+    (function () {
+      const form = document.getElementById("passwordForm");
+      if (!form) return;
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const current = document.getElementById("currentPassword").value.trim();
+        const next = document.getElementById("newPassword").value.trim();
+        const confirmPwd = document.getElementById("confirmPassword").value.trim();
+
+        if (!current || !next || !confirmPwd) return alert("Semua kolom password harus diisi.");
+        if (next.length < 8) return alert("Password baru minimal 8 karakter.");
+        if (next !== confirmPwd) return alert("Konfirmasi password tidak sama dengan password baru.");
+
+        alert("Password berhasil diubah (demo).");
+        form.reset();
+      });
+    })();
+
+    // =========================
+    // ACTIVE SESSION (DEMO)
+    // =========================
+    (function () {
+      const desktopCard = document.getElementById("deviceDesktop");
+      const mobileCard = document.getElementById("deviceMobile");
+      const logoutAllBtn = document.getElementById("logoutAllBtn");
+      if (!desktopCard || !mobileCard) return;
+
+      function isMobile() {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        return /android|iphone|ipad|ipod|windows phone|mobile/i.test(ua);
+      }
+
+      function markActiveSession() {
+        const activeOnMobile = isMobile();
+        const desktopStatus = desktopCard.querySelector("[data-role='desktop-status']");
+        const mobileStatus = mobileCard.querySelector("[data-role='logout-one']");
+        if (!desktopStatus || !mobileStatus) return;
+
+        if (activeOnMobile) {
+          desktopStatus.textContent = "[ Logged out ]";
+          desktopStatus.classList.remove("active");
+          desktopStatus.classList.add("logout");
+
+          mobileStatus.textContent = "Active now";
+          mobileStatus.classList.remove("logout");
+          mobileStatus.classList.add("active");
+        } else {
+          desktopStatus.textContent = "Active now";
+          desktopStatus.classList.add("active");
+          desktopStatus.classList.remove("logout");
+
+          mobileStatus.textContent = "[ Log Out ]";
+          mobileStatus.classList.remove("active");
+          mobileStatus.classList.add("logout");
+        }
+      }
+
+      const logoutOne = mobileCard.querySelector("[data-role='logout-one']");
+      if (logoutOne) {
+        logoutOne.addEventListener("click", function () {
+          if (logoutOne.classList.contains("active")) {
+            alert("Tidak bisa logout dari device yang sedang kamu pakai (demo).");
+            return;
+          }
+          logoutOne.textContent = "[ Logged out ]";
+          logoutOne.classList.remove("logout");
+          logoutOne.style.color = "#8f8f8f";
+        });
+      }
+
+      if (logoutAllBtn) {
+        logoutAllBtn.addEventListener("click", function () {
+          if (!confirm("Log out dari semua device?")) return;
+          alert("Semua device dianggap logout (demo).");
+        });
+      }
+
+      markActiveSession();
+    })();
+
+    // =========================
+    // INIT
+    // =========================
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = getSessionUser();
+      if (!user) { window.location.href = "signin.html"; return; }
+      applyUserToUI(user);
+    });
+  </script>
+</body>
+</html>
